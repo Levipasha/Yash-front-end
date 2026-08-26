@@ -30,22 +30,64 @@ const BlogPost = ({ image, category, title, excerpt, author, date, delay }: any)
   </motion.div>
 );
 
+const defaultMockBlogs = [
+  {
+    _id: 'blog-1',
+    title: '10 Proven Effective Strategies for Excelling in Competitive Exams',
+    excerpt: 'Master time management, structured revision, and effective test-taking strategies to boost your score in board and entrance examinations.',
+    category: 'Study Tips',
+    author: 'Prof. Rajesh Sharma',
+    date: '24 Aug 2026',
+    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=80'
+  },
+  {
+    _id: 'blog-2',
+    title: 'The Future of AI in Modern Education and STEM Learning',
+    excerpt: 'Discover how AI tools and interactive digital platforms are transforming how students master complex science and mathematics concepts.',
+    category: 'Technology',
+    author: 'Dr. Anita Verma',
+    date: '18 Aug 2026',
+    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80'
+  },
+  {
+    _id: 'blog-3',
+    title: 'Choosing the Right Engineering or Medical Career Path After 12th',
+    excerpt: 'A complete step-by-step roadmap for parents and high school students to explore academic options, entrance exams, and career prospects.',
+    category: 'Career Advice',
+    author: 'Ms. Priya Menon',
+    date: '12 Aug 2026',
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80'
+  },
+  {
+    _id: 'blog-4',
+    title: 'YashEdu Achievers: Celebrating Top Scorers in State Examinations',
+    excerpt: 'Highlighting our student success stories and how dedicated mentorship helped them achieve top ranks in state & national examinations.',
+    category: 'Success Stories',
+    author: 'Academy Team',
+    date: '05 Aug 2026',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=80'
+  }
+];
+
 export const Blog = () => {
-  const [blogs, setBlogs] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>(defaultMockBlogs);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Articles');
   const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/blogs')
+    const apiBase = (typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : '';
+    fetch(`${apiBase}/api/blogs`)
       .then(res => res.json())
       .then(data => {
-        setBlogs(data);
+        const fetched = Array.isArray(data) && data.length > 0 ? data : defaultMockBlogs;
+        setBlogs(fetched);
         setLoading(false);
       })
       .catch(err => {
-        console.error("Error fetching blogs:", err);
+        console.warn("Using mock blogs fallback:", err);
+        setBlogs(defaultMockBlogs);
         setLoading(false);
       });
   }, []);

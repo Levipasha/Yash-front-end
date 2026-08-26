@@ -38,14 +38,15 @@ export const Home = () => {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-learning')
+    const apiBase = (typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : '';
+    fetch(`${apiBase}/api/home-learning`)
       .then(res => res.json())
       .then(data => {
         if (data) setHomeConfig(data);
       })
-      .catch(err => console.error('Error fetching home config:', err));
+      .catch(err => console.warn('Using default home config:', err));
 
-    fetch('http://localhost:5000/api/about')
+    fetch(`${apiBase}/api/about`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -56,7 +57,7 @@ export const Home = () => {
           }));
         }
       })
-      .catch(err => console.error('Error fetching about data in home:', err));
+      .catch(err => console.warn('Using default about data in home:', err));
   }, []);
 
   return (
