@@ -62,14 +62,22 @@ export const Navbar = () => {
   const dashboardLink = isLoggedIn ? `/dashboard/${userRole || 'student'}` : '/login';
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="w-full mx-auto px-4 sm:px-8 lg:px-12 xl:px-20">
-        <div className="flex justify-between items-center h-20">
+    <header className="bg-[#FFFDF5] border-b border-[#F3EAD8] sticky top-0 z-50">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
+        <div className="flex justify-between items-center h-20 md:h-24">
           
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center gap-2">
-              <img src={logoImg} alt="YashEdu Logo" className="h-16 sm:h-20 w-auto object-contain" />
+            <Link to="/" className="flex items-center gap-3 py-1 group">
+              <img src={logoImg} alt="YashEdu Logo" className="h-12 sm:h-16 md:h-18 w-auto object-contain transition-all group-hover:scale-105" />
+              <div className="flex flex-col">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#D3010A] leading-none">
+                  YashEdu <span className="text-[#01274C]">Academy</span>
+                </span>
+                <span className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest mt-0.5">
+                  Educational Institute
+                </span>
+              </div>
             </Link>
           </div>
 
@@ -84,11 +92,11 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center justify-end gap-4">
             <div className="flex items-center gap-4">
               {isLoggedIn ? (
-                <Link to={dashboardLink} className="px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-sm font-semibold rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap">
+                <Link to={dashboardLink} className="px-6 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-base font-bold rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap">
                   Dashboard
                 </Link>
               ) : (
-                <Link to="/login" className="px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-sm font-semibold rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap">
+                <Link to="/login" className="px-6 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-base font-bold rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap">
                   Login
                 </Link>
               )}
@@ -114,7 +122,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-gray-200 overflow-hidden"
+            className="md:hidden bg-[#FFFDF5] border-b border-[#F3EAD8] overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 flex flex-col gap-4">
               {!isStudent && (

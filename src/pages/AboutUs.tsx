@@ -1,24 +1,84 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Users, CheckCircle, BookOpen, ShieldCheck, HeartHandshake, Sparkles, Target, Compass } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { 
+  Users, 
+  BookOpen, 
+  Trophy, 
+  Star, 
+  ShieldCheck, 
+  TrendingUp, 
+  GraduationCap, 
+  CheckCircle2, 
+  Target, 
+  Eye, 
+  Award, 
+  HeartHandshake, 
+  Heart, 
+  ArrowRight,
+  Sparkles
+} from 'lucide-react';
+
+const defaultIcons = [Users, BookOpen, Trophy, Star, ShieldCheck, TrendingUp, Sparkles, Award];
 
 export const AboutUs = () => {
   const [loading, setLoading] = useState(true);
   const [aboutData, setAboutData] = useState({
-    title: 'Empowering Future Leaders & Achievers',
-    subtitle: 'Yash Educational Institute is dedicated to nurturing academic excellence, critical thinking, and holistic development for students across all grades.',
-    ourMission: 'To provide world-class personalized education and accessible learning tools that empower students to achieve top rank results in competitive exams and school curriculums.',
-    ourVision: 'To become India\'s most trusted learning platform combining innovative teaching methods with interactive digital assessment and real-time student progress tracking.',
+    // Hero Section
+    heroTitle: 'About Yash Educational Institute',
+    heroDescription: 'At Yash Educational Institute, we believe every student has the potential to achieve greatness. We are committed to providing quality education, expert guidance, and a nurturing environment that inspires confidence, curiosity, and character.',
+    heroImage: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80',
+    heroCtaText: 'Explore Our Programs',
+    heroCtaLink: '/courses',
+
+    // Story Section
+    storyTitle: 'Our Story',
+    storyP1: 'Founded with the vision of making quality education accessible and effective for all, Yash Educational Institute has grown into a trusted learning partner for thousands of students.',
+    storyP2: 'From a small beginning, we have built a strong academic community driven by passion, dedication, and a student-first approach.',
+    storyCtaText: 'Know More About Us',
+    storyCtaLink: '/courses',
+    storyImage: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&auto=format&fit=crop&q=80',
+    storyBadgeTitle: 'Trusted by',
+    storyBadgeText: 'Thousands of Students & Parents',
+
+    // Mission & Vision Section
+    missionVisionTitle: 'Our Mission & Vision',
+    missionTitle: 'Our Mission',
+    ourMission: 'Yash Educational Institute empowers every student to realize their potential by providing quality education, strong values, and the right guidance. We are committed to nurturing confident, skilled, and responsible individuals who contribute positively to society.',
+    visionTitle: 'Our Vision',
+    ourVision: 'To be a leading institute recognized for academic excellence, innovative teaching, and holistic development, preparing students to excel in a dynamic global world.',
+
+    // Why Choose Us Section
+    whyChooseUsTitle: 'Why Choose Us?',
+    whyChooseUs: [
+      { title: 'Expert Faculty', description: 'Experienced and dedicated teachers committed to student success.' },
+      { title: 'Comprehensive Programs', description: 'Curriculum designed for every academic milestone.' },
+      { title: 'Proven Results', description: 'High success rate with countless achievers and top performers.' },
+      { title: 'Student-Centered Approach', description: 'Personal attention and mentorship for overall growth.' },
+      { title: 'Safe & Supportive Environment', description: 'A positive atmosphere that encourages learning and confidence.' },
+      { title: 'Future-Ready Learning', description: 'Building skills, critical thinking, and leadership for tomorrow.' }
+    ],
+
+    // Statistics Banner Section
     stats: {
       studentsEnrolled: '5,000+',
+      studentsEnrolledLabel: 'Students Enrolled',
       expertFaculty: '50+',
+      expertFacultyLabel: 'Expert Faculty',
       successRate: '98%',
-      coursesOffered: '120+'
+      successRateLabel: 'Success Rate',
+      coursesOffered: '120+',
+      coursesOfferedLabel: 'Courses Offered'
     },
+
+    // Values Section
+    valuesTitle: 'Our Values',
     coreValues: [
-      { title: 'Academic Excellence', description: 'Curated curriculum designed by top subject matter experts.' },
-      { title: 'Student-Centric Approach', description: 'Personalized learning pathways and 1-on-1 mentorship.' },
-      { title: 'Integrity & Innovation', description: 'Cutting-edge digital evaluation with transparent progress tracking.' }
+      { title: 'Excellence', description: 'We strive for the highest standards in teaching and learning.' },
+      { title: 'Integrity', description: 'Honesty, transparency, and strong moral values guide us.' },
+      { title: 'Respect', description: 'We respect every individual and celebrate diversity.' },
+      { title: 'Growth', description: 'We believe in continuous improvement and lifelong learning.' },
+      { title: 'Commitment', description: 'We are dedicated to shaping bright futures with care and passion.' }
     ]
   });
 
@@ -27,144 +87,353 @@ export const AboutUs = () => {
       .then(res => res.json())
       .then(data => {
         if (data) {
-          setAboutData({
-            title: data.title || 'Empowering Future Leaders & Achievers',
-            subtitle: data.subtitle || 'Yash Educational Institute is dedicated to nurturing academic excellence...',
-            ourMission: data.ourMission || '',
-            ourVision: data.ourVision || '',
+          setAboutData(prev => ({
+            ...prev,
+            heroTitle: data.heroTitle || data.title || prev.heroTitle,
+            heroDescription: data.heroDescription || data.subtitle || prev.heroDescription,
+            heroImage: data.heroImage || prev.heroImage,
+            heroCtaText: data.heroCtaText || prev.heroCtaText,
+            heroCtaLink: data.heroCtaLink || prev.heroCtaLink,
+
+            storyTitle: data.storyTitle || prev.storyTitle,
+            storyP1: data.storyP1 || prev.storyP1,
+            storyP2: data.storyP2 || prev.storyP2,
+            storyCtaText: data.storyCtaText || prev.storyCtaText,
+            storyCtaLink: data.storyCtaLink || prev.storyCtaLink,
+            storyImage: data.storyImage || prev.storyImage,
+            storyBadgeTitle: data.storyBadgeTitle || prev.storyBadgeTitle,
+            storyBadgeText: data.storyBadgeText || prev.storyBadgeText,
+
+            missionVisionTitle: data.missionVisionTitle || prev.missionVisionTitle,
+            missionTitle: data.missionTitle || prev.missionTitle,
+            ourMission: data.ourMission || prev.ourMission,
+            visionTitle: data.visionTitle || prev.visionTitle,
+            ourVision: data.ourVision || prev.ourVision,
+
+            whyChooseUsTitle: data.whyChooseUsTitle || prev.whyChooseUsTitle,
+            whyChooseUs: Array.isArray(data.whyChooseUs) && data.whyChooseUs.length > 0 ? data.whyChooseUs : prev.whyChooseUs,
+
             stats: {
-              studentsEnrolled: data.stats?.studentsEnrolled || '5,000+',
-              expertFaculty: data.stats?.expertFaculty || '50+',
-              successRate: data.stats?.successRate || '98%',
-              coursesOffered: data.stats?.coursesOffered || '120+'
+              studentsEnrolled: data.stats?.studentsEnrolled || prev.stats.studentsEnrolled,
+              studentsEnrolledLabel: data.stats?.studentsEnrolledLabel || prev.stats.studentsEnrolledLabel,
+              expertFaculty: data.stats?.expertFaculty || prev.stats.expertFaculty,
+              expertFacultyLabel: data.stats?.expertFacultyLabel || prev.stats.expertFacultyLabel,
+              successRate: data.stats?.successRate || prev.stats.successRate,
+              successRateLabel: data.stats?.successRateLabel || prev.stats.successRateLabel,
+              coursesOffered: data.stats?.coursesOffered || prev.stats.coursesOffered,
+              coursesOfferedLabel: data.stats?.coursesOfferedLabel || prev.stats.coursesOfferedLabel
             },
-            coreValues: Array.isArray(data.coreValues) && data.coreValues.length > 0 ? data.coreValues : [
-              { title: 'Academic Excellence', description: 'Curated curriculum designed by top subject matter experts.' },
-              { title: 'Student-Centric Approach', description: 'Personalized learning pathways and 1-on-1 mentorship.' },
-              { title: 'Integrity & Innovation', description: 'Cutting-edge digital evaluation with transparent progress tracking.' }
-            ]
-          });
+
+            valuesTitle: data.valuesTitle || prev.valuesTitle,
+            coreValues: Array.isArray(data.coreValues) && data.coreValues.length > 0 ? data.coreValues : prev.coreValues
+          }));
         }
       })
       .catch(err => console.error('Error loading About Us page data:', err))
       .finally(() => setLoading(false));
   }, []);
 
+  const renderHeroTitle = (titleStr: string) => {
+    const parts = titleStr.trim().split(' ');
+    if (parts.length > 2) {
+      const firstWord = parts[0];
+      const rest = parts.slice(1).join(' ');
+      return (
+        <>
+          {firstWord} <br />
+          <span className="text-red-600">{rest}</span>
+        </>
+      );
+    }
+    return <span className="text-red-600">{titleStr}</span>;
+  };
+
   return (
-    <div className="bg-gray-50 min-h-screen">
-      {/* Hero Header */}
-      <section className="bg-gray-900 py-24 relative overflow-hidden text-white">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-red-600/30 via-transparent to-transparent opacity-60"></div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="px-4 py-1.5 bg-red-600/20 text-red-400 border border-red-500/30 rounded-full font-bold text-xs uppercase tracking-widest inline-block"
+    <div className="bg-white min-h-screen font-sans text-gray-800">
+      
+      {/* 1. HERO SECTION */}
+      <section className="w-full px-6 sm:px-10 lg:px-20 py-12 lg:py-16">
+        <div className="grid lg:grid-cols-12 gap-10 items-center">
+          {/* Left Column: Heading & Description */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-6 space-y-6"
           >
-            About Yash Educational Institute
-          </motion.span>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-black tracking-tight"
+            <div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+                {renderHeroTitle(aboutData.heroTitle)}
+              </h1>
+              {/* Red Accent Underline */}
+              <div className="w-16 h-1 bg-red-500 rounded-full mt-3"></div>
+            </div>
+
+            <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl">
+              {aboutData.heroDescription}
+            </p>
+
+          </motion.div>
+
+          {/* Right Column: Hero Image */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-6 relative flex justify-center"
           >
-            {aboutData.title}
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed"
-          >
-            {aboutData.subtitle}
-          </motion.p>
+            <div className="relative w-full max-w-lg">
+              <div className="absolute inset-0 bg-blue-50/80 rounded-full blur-2xl scale-105 -z-10"></div>
+              
+              <img 
+                src={aboutData.heroImage} 
+                alt="About Us Hero" 
+                className="w-full h-auto object-cover rounded-3xl shadow-xl border border-gray-100 max-h-[450px]"
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Main Content Container */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 -mt-12 relative z-20 space-y-16">
-        
-        {/* Mission & Vision Cards */}
-        <div className="grid md:grid-cols-2 gap-8">
+      {/* 2. OUR STORY SECTION */}
+      <section className="bg-[#eef5fc] py-16 lg:py-24 px-6 sm:px-10 lg:px-20">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Column: Text */}
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-4 hover:shadow-2xl transition-all"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-6 space-y-6"
           >
-            <div className="w-14 h-14 bg-red-50 text-[var(--color-primary)] rounded-2xl flex items-center justify-center font-bold">
-              <Target className="w-7 h-7 text-red-600" />
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">{aboutData.storyTitle}</h2>
+              <div className="w-12 h-1 bg-red-500 rounded-full mt-2"></div>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
-            <p className="text-gray-600 leading-relaxed text-base">{aboutData.ourMission}</p>
+
+            {aboutData.storyP1 && (
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                {aboutData.storyP1}
+              </p>
+            )}
+
+            {aboutData.storyP2 && (
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                {aboutData.storyP2}
+              </p>
+            )}
+
+            {aboutData.storyCtaText && (
+              <div className="pt-2">
+                <Link 
+                  to={aboutData.storyCtaLink || '/courses'} 
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold text-xs sm:text-sm rounded-full transition-all"
+                >
+                  {aboutData.storyCtaText} <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </motion.div>
 
+          {/* Right Column: Building Image & Floating Card */}
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-4 hover:shadow-2xl transition-all"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-6 relative"
           >
-            <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-bold">
-              <Compass className="w-7 h-7 text-blue-600" />
+            <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-200/60">
+              <img 
+                src={aboutData.storyImage} 
+                alt="Story Building" 
+                className="w-full h-80 sm:h-96 object-cover"
+              />
+              
+              {/* Floating Badge Overlay */}
+              {(aboutData.storyBadgeTitle || aboutData.storyBadgeText) && (
+                <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-gray-100 max-w-xs flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-gray-900">{aboutData.storyBadgeTitle}</h4>
+                    <p className="text-[11px] text-gray-500 font-medium leading-tight">
+                      <strong className="text-gray-800">{aboutData.storyBadgeText}</strong>
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">Our Vision</h3>
-            <p className="text-gray-600 leading-relaxed text-base">{aboutData.ourVision}</p>
           </motion.div>
+
+        </div>
+      </section>
+
+      {/* 3. OUR MISSION & VISION */}
+      <section className="py-16 lg:py-24 px-6 sm:px-10 lg:px-20 max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">{aboutData.missionVisionTitle}</h2>
+          <div className="w-12 h-1 bg-red-500 rounded-full mx-auto mt-2"></div>
         </div>
 
-        {/* Statistics Banner */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Mission Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="bg-white p-8 sm:p-10 rounded-3xl border border-gray-100 shadow-md hover:shadow-xl transition-all space-y-4 flex items-start gap-5"
+          >
+            <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+              <Target className="w-7 h-7" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{aboutData.missionTitle}</h3>
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+                {aboutData.ourMission}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Vision Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-white p-8 sm:p-10 rounded-3xl border border-gray-100 shadow-md hover:shadow-xl transition-all space-y-4 flex items-start gap-5"
+          >
+            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <Eye className="w-7 h-7" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{aboutData.visionTitle}</h3>
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+                {aboutData.ourVision}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 4. WHY CHOOSE US? */}
+      {aboutData.whyChooseUs && aboutData.whyChooseUs.length > 0 && (
+        <section className="py-12 lg:py-20 px-6 sm:px-10 lg:px-20 bg-gray-50/50">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-14">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">{aboutData.whyChooseUsTitle}</h2>
+              <div className="w-12 h-1 bg-red-500 rounded-full mx-auto mt-2"></div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-6 sm:gap-8 text-center">
+              {aboutData.whyChooseUs.map((item, idx) => {
+                const IconComponent = defaultIcons[idx % defaultIcons.length];
+                const colorAccents = [
+                  'bg-blue-50 text-blue-600 border-blue-100',
+                  'bg-red-50 text-red-500 border-red-100',
+                  'bg-indigo-50 text-indigo-600 border-indigo-100',
+                  'bg-rose-50 text-rose-500 border-rose-100',
+                  'bg-sky-50 text-sky-600 border-sky-100',
+                  'bg-orange-50 text-orange-500 border-orange-100'
+                ];
+                const colorClass = colorAccents[idx % colorAccents.length];
+
+                return (
+                  <div key={idx} className="space-y-3 p-4 rounded-2xl hover:bg-white transition-all border border-transparent hover:border-gray-100 hover:shadow-sm">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto border ${colorClass}`}>
+                      <IconComponent className="w-6 h-6" />
+                    </div>
+                    <h4 className="text-sm font-extrabold text-gray-900">{item.title}</h4>
+                    <p className="text-[11px] text-gray-500 leading-relaxed">{item.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 5. STATISTICS BANNER */}
+      <section className="py-10 px-6 sm:px-10 lg:px-20 max-w-7xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-900 text-white p-10 rounded-3xl shadow-2xl relative overflow-hidden"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-[#0f172a] text-white p-8 sm:p-12 rounded-3xl shadow-2xl"
         >
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center relative z-10">
-            <div className="space-y-1">
-              <p className="text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.studentsEnrolled}</p>
-              <p className="text-sm font-bold text-gray-300">Students Enrolled</p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y lg:divide-y-0 lg:divide-x divide-gray-800">
+            
+            {/* Stat 1 */}
+            <div className="space-y-2 pt-4 lg:pt-0">
+              <GraduationCap className="w-7 h-7 text-gray-400 mx-auto" />
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.studentsEnrolled}</p>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-wider">{aboutData.stats.studentsEnrolledLabel || 'Students Enrolled'}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.expertFaculty}</p>
-              <p className="text-sm font-bold text-gray-300">Expert Faculty</p>
+
+            {/* Stat 2 */}
+            <div className="space-y-2 pt-4 lg:pt-0">
+              <Users className="w-7 h-7 text-gray-400 mx-auto" />
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.expertFaculty}</p>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-wider">{aboutData.stats.expertFacultyLabel || 'Expert Faculty'}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.successRate}</p>
-              <p className="text-sm font-bold text-gray-300">Success Rate</p>
+
+            {/* Stat 3 */}
+            <div className="space-y-2 pt-4 lg:pt-0">
+              <CheckCircle2 className="w-7 h-7 text-gray-400 mx-auto" />
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.successRate}</p>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-wider">{aboutData.stats.successRateLabel || 'Success Rate'}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.coursesOffered}</p>
-              <p className="text-sm font-bold text-gray-300">Courses Offered</p>
+
+            {/* Stat 4 */}
+            <div className="space-y-2 pt-4 lg:pt-0">
+              <BookOpen className="w-7 h-7 text-gray-400 mx-auto" />
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-red-500">{aboutData.stats.coursesOffered}</p>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-wider">{aboutData.stats.coursesOfferedLabel || 'Courses Offered'}</p>
             </div>
+
           </div>
         </motion.div>
-
-        {/* Core Values Section */}
-        <div className="space-y-8 text-center">
-          <div>
-            <span className="text-xs font-extrabold text-[var(--color-primary)] uppercase tracking-wider">What We Stand For</span>
-            <h2 className="text-3xl font-extrabold text-gray-900 mt-1">Our Core Pillars & Values</h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 text-left">
-            {aboutData.coreValues.map((val, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-3 hover:border-red-200 transition-all"
-              >
-                <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center font-bold text-red-600">
-                  #{idx + 1}
-                </div>
-                <h4 className="text-xl font-bold text-gray-900">{val.title}</h4>
-                <p className="text-sm text-gray-600 leading-relaxed">{val.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
       </section>
+
+      {/* 6. OUR VALUES SECTION */}
+      {aboutData.coreValues && aboutData.coreValues.length > 0 && (
+        <section className="py-16 lg:py-24 px-6 sm:px-10 lg:px-20 max-w-7xl mx-auto mb-10">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">{aboutData.valuesTitle}</h2>
+            <div className="w-12 h-1 bg-red-500 rounded-full mx-auto mt-2"></div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 text-center">
+            {aboutData.coreValues.map((val, idx) => {
+              const valueIcons = [Award, HeartHandshake, Users, TrendingUp, Heart, Sparkles];
+              const ValueIcon = valueIcons[idx % valueIcons.length];
+              const valueColors = [
+                'bg-red-50 text-red-500',
+                'bg-blue-50 text-blue-600',
+                'bg-amber-50 text-amber-600',
+                'bg-emerald-50 text-emerald-600',
+                'bg-purple-50 text-purple-600'
+              ];
+              const colorClass = valueColors[idx % valueColors.length];
+
+              return (
+                <div key={idx} className="space-y-3 p-4 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto ${colorClass}`}>
+                    <ValueIcon className="w-7 h-7" />
+                  </div>
+                  <h4 className="text-sm font-extrabold text-gray-900">{val.title}</h4>
+                  <p className="text-[11px] text-gray-500 leading-relaxed">{val.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
     </div>
   );
 };

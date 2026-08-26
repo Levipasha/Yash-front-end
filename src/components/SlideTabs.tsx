@@ -68,7 +68,7 @@ export const SlideTabs = () => {
             });
         }
       }}
-      className="relative mx-auto flex w-fit rounded-full bg-white p-1"
+      className={`relative mx-auto flex w-full max-w-xl md:max-w-2xl rounded-full bg-[#FAF6EE] p-2 md:p-2.5 border border-[#EAE0D0] shadow-sm items-center justify-between`}
     >
       {TABS.map((tab, i) => (
          <Tab
@@ -116,7 +116,7 @@ const Tab = React.forwardRef<HTMLLIElement, TabProps>(({ children, setPosition, 
           opacity: 1,
         });
       }}
-      className={`relative z-10 block cursor-pointer px-3 py-1.5 text-sm font-semibold transition-colors duration-300 md:px-5 md:py-2 ${
+      className={`relative z-10 flex-1 flex items-center justify-center cursor-pointer py-2 md:py-2.5 text-sm md:text-base font-bold transition-colors duration-300 px-3 md:px-5 whitespace-nowrap tracking-wide ${
         isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
       }`}
     >
@@ -134,7 +134,7 @@ const Cursor = ({ position }: { position: { left: number; width: number; opacity
         opacity: position.opacity
       }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="absolute z-0 h-9 md:h-9 top-1 rounded-full bg-[var(--color-primary)] shadow-sm"
+      className="absolute z-0 top-2 bottom-2 md:top-2.5 md:bottom-2.5 rounded-full bg-[var(--color-primary)] shadow-sm"
     />
   );
 };

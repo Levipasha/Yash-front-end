@@ -25,15 +25,31 @@ export const Login = () => {
       return;
     }
 
+    if (!password) {
+      setError('Please enter your password.');
+      return;
+    }
+
     try {
       let firebaseUid = '';
 
-      // Try Firebase authentication
+      // Firebase authentication
       try {
         const userCredential = await signInWithEmailAndPassword(auth, userEmail, password);
         firebaseUid = userCredential.user.uid;
       } catch (fbErr: any) {
-        console.warn("Firebase auth failed or skipped, checking backend database:", fbErr?.message);
+        console.error("Firebase auth failed:", fbErr);
+        let msg = 'Invalid email or password. Please try again.';
+        if (fbErr.code === 'auth/wrong-password' || fbErr.code === 'auth/invalid-credential') {
+          msg = 'Invalid password. Please check your password and try again.';
+        } else if (fbErr.code === 'auth/user-not-found') {
+          msg = 'No account found with this email address.';
+        } else if (fbErr.code === 'auth/invalid-email') {
+          msg = 'Invalid email address format.';
+        } else if (fbErr.message) {
+          msg = fbErr.message;
+        }
+        throw new Error(msg);
       }
 
       // Authenticate with backend API

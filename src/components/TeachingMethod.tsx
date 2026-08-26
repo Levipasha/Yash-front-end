@@ -103,24 +103,14 @@ export const TeachingMethod = () => {
     'Every student gets personalized attention with weekly updates delivered directly to parents.';
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
+    <section className="py-10 md:py-12 bg-white relative overflow-hidden border-t border-gray-100">
       {/* Subtle Background Glows */}
       <div className="absolute top-1/4 -left-20 w-72 h-72 bg-red-100/40 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-10 -right-20 w-80 h-80 bg-blue-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full px-6 sm:px-10 lg:px-16 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 text-[var(--color-primary)] text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-4 border border-red-100"
-          >
-            <Sparkles className="w-4 h-4 text-[var(--color-primary)]" />
-            {sectionBadge}
-          </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -142,7 +132,7 @@ export const TeachingMethod = () => {
         </div>
 
         {/* 4-Step Journey Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative items-stretch">
           {stepsList.map((item: any, idx: number) => {
             const themeKey = item.themeColor || (idx === 0 ? 'red' : idx === 1 ? 'blue' : idx === 2 ? 'amber' : 'emerald');
             const style = colorStyles[themeKey] || colorStyles.red;
@@ -157,7 +147,7 @@ export const TeachingMethod = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.12 }}
-                className={`relative group bg-white p-7 rounded-3xl border ${style.borderColor} shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between`}
+                className={`relative h-full group bg-white p-7 rounded-3xl border ${style.borderColor} shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between`}
               >
                 <div>
                   {/* Top Bar: Icon & Step Badge */}
@@ -182,10 +172,10 @@ export const TeachingMethod = () => {
                   </p>
                 </div>
 
-                {/* Flow indicator arrow for larger screens */}
+                {/* Flow indicator arrow centered vertically between boxes */}
                 {idx < stepsList.length - 1 && (
-                  <div className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white border border-gray-200 items-center justify-center text-gray-400 shadow-sm">
-                    <ArrowRight className="w-4 h-4" />
+                  <div className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border-2 border-gray-200 items-center justify-center text-gray-600 shadow-md group-hover:border-[var(--color-primary)] group-hover:text-[var(--color-primary)] transition-all">
+                    <ArrowRight className="w-4.5 h-4.5" />
                   </div>
                 )}
 

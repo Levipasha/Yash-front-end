@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
-import { Star, MapPin, Users, Play } from 'lucide-react';
-import { useParams, Link } from 'react-router-dom';
+import { Star, MapPin, Users } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { RequestQueryModal } from '../components/RequestQueryModal';
 import { WatchVideoModal } from '../components/WatchVideoModal';
+import { CourseDetailsModal } from '../components/CourseDetailsModal';
 
-const CourseCard = ({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl, delay, onRequestQuery, onWatchVideo }: any) => (
+const CourseCard = ({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl, delay, onViewDetails }: any) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -34,19 +35,12 @@ const CourseCard = ({ image, title, instructor, rating, location, duration, stud
         <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {students}</span>
       </div>
       
-      <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto gap-2">
+      <div className="pt-4 border-t border-gray-100 mt-auto">
         <button 
-          onClick={() => onWatchVideo && onWatchVideo(title, image, videoUrl)} 
-          className="px-3 py-2 bg-gray-50 hover:bg-red-50 text-gray-700 hover:text-[var(--color-primary)] font-bold rounded-lg transition-all text-xs flex items-center gap-1.5 border border-gray-200 hover:border-red-200"
+          onClick={() => onViewDetails({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl })} 
+          className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-red-700 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-sm"
         >
-          <Play className="w-3.5 h-3.5 fill-red-600 text-red-600" /> Watch Video
-        </button>
-
-        <button 
-          onClick={() => onRequestQuery(title)} 
-          className="px-3.5 py-2 bg-red-50 text-[var(--color-primary)] font-bold rounded-lg hover:bg-[var(--color-primary)] hover:text-white transition-colors text-xs"
-        >
-          Request Query
+          View Details
         </button>
       </div>
     </div>
@@ -54,9 +48,11 @@ const CourseCard = ({ image, title, instructor, rating, location, duration, stud
 );
 
 export const SubjectCourses = () => {
+  const navigate = useNavigate();
   const { subject } = useParams(); // gets 'mathematics', 'science-&-tech', etc.
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCourseForDetails, setSelectedCourseForDetails] = useState<any | null>(null);
   const [selectedCourseForQuery, setSelectedCourseForQuery] = useState<string | null>(null);
   const [selectedWatchVideo, setSelectedWatchVideo] = useState<{ title: string; image?: string; videoUrl?: string } | null>(null);
 
@@ -120,8 +116,7 @@ export const SubjectCourses = () => {
                 subject={course.subject}
                 videoUrl={course.videoUrl}
                 delay={0.1 * (index % 4 + 1)}
-                onRequestQuery={(title: string) => setSelectedCourseForQuery(title)}
-                onWatchVideo={(title: string, image?: string, videoUrl?: string) => setSelectedWatchVideo({ title, image, videoUrl })}
+                onViewDetails={(cDetails: any) => navigate('/course-details', { state: { course: cDetails } })}
               />
             ))}
           </div>
@@ -132,6 +127,19 @@ export const SubjectCourses = () => {
           </div>
         )}
       </section>
+
+      {/* Course Details Modal */}
+      {selectedCourseForDetails && (
+        <CourseDetailsModal
+          course={selectedCourseForDetails}
+          onClose={() => setSelectedCourseForDetails(null)}
+          onRequestQuery={(title: string) => setSelectedCourseForQuery(title)}
+          onWatchVideo={(title: string, image?: string, videoUrl?: string) => {
+            setSelectedCourseForDetails(null);
+            navigate('/course-details', { state: { course: { title, image, videoUrl } } });
+          }}
+        />
+      )}
       
       {/* Request Query Modal */}
       {selectedCourseForQuery && (

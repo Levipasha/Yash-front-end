@@ -8,6 +8,7 @@ import {
   TrendingUp, Download, ChevronDown, ArrowLeft,
   User, GraduationCap, Phone, Mail, RefreshCw, Check, AlertCircle, Send
 } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 import logoImg from '../images/Untitled design.png';
 
 interface SidebarItemProps {
@@ -176,6 +177,278 @@ export const ParentDashboard = () => {
     }
   };
 
+  const handleDownloadReceipt = (payment: any) => {
+    try {
+      const doc = new jsPDF();
+      const sName = studentDetails?.fullName || 'Student';
+      const sId = studentDetails?.studentId || linkedStudentId || 'N/A';
+      const pName = parentName || 'Parent';
+      const amountStr = `Rs. ${payment.amount}`;
+      const paidDate = payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString() : new Date().toLocaleDateString();
+      const dueDate = payment.dueDate ? new Date(payment.dueDate).toLocaleDateString() : 'N/A';
+      const txnId = payment.transactionId || `TXN-${payment._id ? payment._id.slice(-8) : Date.now()}`;
+      const payMethod = payment.paymentMethod || 'ONLINE';
+
+      // Header Banner
+      doc.setFillColor(220, 38, 38); // Primary red header
+      doc.rect(0, 0, 210, 35, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.text('YASHEDU ACADEMY', 15, 20);
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text('OFFICIAL FEE PAYMENT RECEIPT', 15, 28);
+
+      // Status Badge
+      doc.setFillColor(34, 197, 94);
+      doc.roundedRect(150, 12, 45, 14, 3, 3, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('PAID', 167, 21);
+
+      // Receipt Details Header
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Receipt No: ${txnId}`, 15, 48);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Date Issued: ${paidDate}`, 145, 48);
+
+      doc.setDrawColor(226, 232, 240);
+      doc.line(15, 53, 195, 53);
+
+      // Student & Parent Information Box
+      doc.setFillColor(248, 250, 252);
+      doc.roundedRect(15, 58, 180, 42, 3, 3, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(15, 23, 42);
+      doc.text('STUDENT & PARENT INFORMATION', 20, 68);
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(71, 85, 105);
+      doc.text(`Student Name: ${sName}`, 20, 77);
+      doc.text(`Student ID: ${sId}`, 20, 85);
+      doc.text(`Course: ${studentDetails?.courseName || 'General Tuition'}`, 20, 93);
+
+      doc.text(`Parent Name: ${pName}`, 110, 77);
+      doc.text(`Parent Email: ${parentEmail || 'N/A'}`, 110, 85);
+      doc.text(`Payment Method: ${payMethod}`, 110, 93);
+
+      // Payment Breakdown Table
+      doc.setDrawColor(226, 232, 240);
+      doc.setFillColor(241, 245, 249);
+      doc.rect(15, 110, 180, 10, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(10);
+      doc.text('DESCRIPTION', 20, 116.5);
+      doc.text('DUE DATE', 110, 116.5);
+      doc.text('AMOUNT', 165, 116.5);
+
+      // Table Row
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(51, 65, 85);
+      doc.text('Tuition Fee Payment', 20, 130);
+      doc.text(dueDate, 110, 130);
+      doc.setFont('helvetica', 'bold');
+      doc.text(amountStr, 165, 130);
+
+      doc.setDrawColor(226, 232, 240);
+      doc.line(15, 137, 195, 137);
+
+      // Total Paid Box
+      doc.setFillColor(240, 253, 244);
+      doc.setDrawColor(187, 247, 208);
+      doc.roundedRect(110, 145, 85, 22, 3, 3, 'FD');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(22, 101, 52);
+      doc.text('TOTAL PAID:', 115, 158);
+      doc.setFontSize(14);
+      doc.text(amountStr, 152, 159);
+
+      // Authorized Stamp / Footer Note
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'italic');
+      doc.setTextColor(148, 163, 184);
+      doc.text('This is a system-generated official receipt issued by YashEdu Academy.', 15, 190);
+      doc.text('For any queries, please contact support@yashedu.com or call +91 86864 56117.', 15, 196);
+
+      // Signature line
+      doc.setDrawColor(203, 213, 225);
+      doc.line(140, 215, 190, 215);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Authorized Signatory', 148, 221);
+      doc.text('YashEdu Academy', 151, 226);
+
+      doc.save(`YashEdu_Receipt_${sId}_${txnId}.pdf`);
+    } catch (err) {
+      console.error('Error generating PDF receipt:', err);
+      alert('Error generating PDF receipt');
+    }
+  };
+
+  const handleDownloadParentReportCard = async () => {
+    // If student has an uploaded reportCardUrl (PDF / Image), download it directly without opening new window tab
+    if (studentDetails?.reportCardUrl) {
+      try {
+        const response = await fetch(studentDetails.reportCardUrl);
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        const filename = studentDetails.reportCardName || `ReportCard_${studentDetails.studentId || 'YashEdu'}.pdf`;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+        return;
+      } catch (err) {
+        console.error('Direct download failed, generating PDF report card...', err);
+      }
+    }
+
+    // Generate dynamic Report Card PDF using jsPDF
+    try {
+      const doc = new jsPDF();
+      const sName = studentDetails?.fullName || 'Student';
+      const sId = studentDetails?.studentId || linkedStudentId || 'N/A';
+      const course = studentDetails?.courseName || 'General Academic';
+      const issueDate = new Date().toLocaleDateString();
+
+      // Premium Dark Maroon Header Banner
+      doc.setFillColor(112, 0, 0); // #700000 Dark Maroon
+      doc.rect(0, 0, 210, 42, 'F');
+
+      // Gold Bottom Accent Border
+      doc.setFillColor(212, 175, 55); // Gold accent
+      doc.rect(0, 40, 210, 2, 'F');
+
+      // Title & Subtitle
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.text('YASHEDU ACADEMY', 20, 18);
+
+      doc.setTextColor(253, 224, 71); // Gold yellow subtitle
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text('OFFICIAL ACADEMIC PERFORMANCE & EVALUATION REPORT', 20, 27);
+
+      doc.setTextColor(241, 245, 249);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'italic');
+      doc.text('Empowering Excellence in Education & Academic Achievement', 20, 35);
+
+      // Student Info Box
+      doc.setFillColor(248, 250, 252);
+      doc.setDrawColor(226, 232, 240);
+      doc.roundedRect(15, 48, 180, 38, 3, 3, 'FD');
+
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text('STUDENT EVALUATION SUMMARY', 20, 58);
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(71, 85, 105);
+      doc.text(`Student Name: ${sName}`, 20, 67);
+      doc.text(`Student ID: ${sId}`, 20, 76);
+
+      doc.text(`Enrolled Course: ${course}`, 110, 67);
+      doc.text(`Issue Date: ${issueDate}`, 110, 76);
+
+      // Table Header
+      doc.setFillColor(241, 245, 249);
+      doc.rect(15, 95, 180, 10, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(9);
+      doc.text('SUBJECT', 20, 101.5);
+      doc.text('MAX MARKS', 80, 101.5);
+      doc.text('OBTAINED', 115, 101.5);
+      doc.text('PERCENTAGE', 145, 101.5);
+      doc.text('GRADE', 178, 101.5);
+
+      const subjects = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'];
+      let yPos = 114;
+      let totalMax = 0;
+      let totalObt = 0;
+
+      subjects.forEach((subj) => {
+        const maxM = Number((studentDetails as any)?.maxMarks?.[subj] ?? 100) || 100;
+        const obtM = Number((studentDetails as any)?.marksObtained?.[subj] ?? (studentDetails as any)?.performanceScores?.[subj] ?? 0);
+        const pct = maxM > 0 ? Math.round((obtM / maxM) * 100) : 0;
+        const grade = pct >= 90 ? 'A+' : pct >= 75 ? 'A' : pct >= 60 ? 'B' : pct >= 40 ? 'C' : 'F';
+
+        totalMax += maxM;
+        totalObt += obtM;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(51, 65, 85);
+        doc.text(subj, 20, yPos);
+        doc.text(String(maxM), 80, yPos);
+        doc.setFont('helvetica', 'bold');
+        doc.text(String(obtM), 115, yPos);
+        doc.text(`${pct}%`, 145, yPos);
+        doc.setTextColor(22, 101, 52);
+        doc.text(grade, 178, yPos);
+
+        doc.setDrawColor(241, 245, 249);
+        doc.line(15, yPos + 4, 195, yPos + 4);
+        yPos += 12;
+      });
+
+      // Overall Performance Summary Box
+      const overallPct = totalMax > 0 ? Math.round((totalObt / totalMax) * 100) : 0;
+      const overallGrade = overallPct >= 90 ? 'A+' : overallPct >= 75 ? 'A' : overallPct >= 60 ? 'B' : overallPct >= 40 ? 'C' : 'F';
+
+      doc.setFillColor(254, 242, 242);
+      doc.setDrawColor(254, 202, 202);
+      doc.roundedRect(15, yPos + 10, 180, 24, 3, 3, 'FD');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(153, 27, 27);
+      doc.text(`TOTAL MARKS: ${totalObt} / ${totalMax}`, 22, yPos + 24);
+      doc.text(`OVERALL PERCENTAGE: ${overallPct}%`, 105, yPos + 24);
+      doc.text(`FINAL GRADE: ${overallGrade}`, 162, yPos + 24);
+
+      // Signatures & Remarks
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'italic');
+      doc.setTextColor(148, 163, 184);
+      doc.text('This is an official computer-generated Academic Report Card issued by YashEdu Academy.', 15, yPos + 52);
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(140, yPos + 70, 190, yPos + 70);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Principal / Academic Board', 142, yPos + 76);
+      doc.text('YashEdu Academy', 151, yPos + 81);
+
+      doc.save(`YashEdu_ReportCard_${sId}.pdf`);
+    } catch (err) {
+      console.error('Error generating report card PDF:', err);
+      alert('Error generating report card PDF');
+    }
+  };
+
   const handlePayOnline = async (paymentId: string) => {
     const token = localStorage.getItem('token') || '';
     const userEmail = localStorage.getItem('userEmail') || '';
@@ -275,18 +548,6 @@ export const ParentDashboard = () => {
 
 
 
-  const handleDownloadParentReportCard = () => {
-    if (studentDetails?.reportCardUrl) {
-      const link = document.createElement('a');
-      link.href = studentDetails.reportCardUrl;
-      link.download = studentDetails.reportCardName || `${studentDetails.fullName || 'Student'}_ReportCard.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      alert(`The official report card PDF for ${studentDetails?.fullName || 'your child'} has not been uploaded by the academy admin yet. Please check back soon.`);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -730,11 +991,11 @@ export const ParentDashboard = () => {
                     <p className="text-gray-500 text-sm mt-1">Fee payment overview for <strong>{studentDetails?.fullName || 'Student'}</strong> (ID: {linkedStudentId || 'N/A'})</p>
                   </div>
                   <span className={`px-4 py-1.5 rounded-full text-xs font-bold ${
-                    studentDetails?.status === 'Paid' || studentDetails?.status === 'Active'
+                    studentDetails?.status === 'Paid'
                       ? 'bg-green-100 text-green-700 border border-green-200' 
                       : 'bg-red-100 text-red-700 border border-red-200'
                   }`}>
-                    Payment Status: {studentDetails?.status || 'Paid'}
+                    Payment Status: {studentDetails?.status || 'Unpaid'}
                   </span>
                 </div>
 
@@ -742,9 +1003,11 @@ export const ParentDashboard = () => {
                 {(() => {
                   const effectiveTermFee = feeCycles.length > 0
                     ? `₹${Number(feeCycles[0].feeAmount).toLocaleString('en-IN')}`
-                    : payments.length > 0
-                      ? `₹${Number(payments[0].amount).toLocaleString('en-IN')}`
-                      : (studentDetails?.termFee && studentDetails.termFee !== '₹12,500' ? studentDetails.termFee : '₹2,000');
+                    : (studentDetails?.termFee && studentDetails.termFee !== '₹12,500'
+                        ? studentDetails.termFee
+                        : payments.length > 0
+                          ? `₹${Number(payments[0].amount).toLocaleString('en-IN')}`
+                          : '₹2,000');
 
                   return (
                     <>
@@ -760,24 +1023,24 @@ export const ParentDashboard = () => {
                         </div>
 
                         <div className={`p-6 rounded-2xl border text-center flex flex-col items-center justify-center ${
-                          studentDetails?.status === 'Paid' || studentDetails?.status === 'Active'
+                          studentDetails?.status === 'Paid'
                             ? 'bg-green-50/50 border-green-100'
                             : 'bg-red-50/50 border-red-100'
                         }`}>
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 font-bold text-lg ${
-                            studentDetails?.status === 'Paid' || studentDetails?.status === 'Active'
+                            studentDetails?.status === 'Paid'
                               ? 'bg-green-100 text-green-700'
                               : 'bg-red-100 text-red-700'
                           }`}>
-                            {studentDetails?.status === 'Paid' || studentDetails?.status === 'Active' ? '✓' : '!'}
+                            {studentDetails?.status === 'Paid' ? '✓' : '!'}
                           </div>
                           <span className="text-xs text-gray-500">Account Status</span>
                           <h3 className={`font-bold text-xl mt-1 ${
-                            studentDetails?.status === 'Paid' || studentDetails?.status === 'Active'
+                            studentDetails?.status === 'Paid'
                               ? 'text-green-700'
                               : 'text-red-700'
                           }`}>
-                            {studentDetails?.status || 'Paid'}
+                            {studentDetails?.status || 'Unpaid'}
                           </h3>
                         </div>
 
@@ -894,10 +1157,11 @@ export const ParentDashboard = () => {
                                 </button>
                               ) : (
                                 <button 
-                                  onClick={() => alert(`Official Payment Receipt downloaded.`)}
-                                  className="px-3 py-1.5 bg-gray-50 text-gray-600 hover:bg-gray-100 font-bold rounded-lg text-xs transition-colors border border-gray-200 flex items-center gap-1.5"
+                                  onClick={() => handleDownloadReceipt(payment)}
+                                  className="px-3 py-1.5 bg-green-50 text-green-700 hover:bg-green-100 font-bold rounded-lg text-xs transition-colors border border-green-200 flex items-center gap-1.5 shadow-2xs"
+                                  title="Download Official PDF Receipt"
                                 >
-                                  <Download className="w-3.5 h-3.5" /> Receipt
+                                  <Download className="w-3.5 h-3.5 text-green-600" /> Receipt
                                 </button>
                               )}
                             </td>

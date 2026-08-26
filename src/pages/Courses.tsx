@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, MapPin, Users, Search, BookOpen, Play } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Star, MapPin, Users, Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { RequestQueryModal } from '../components/RequestQueryModal';
 import { WatchVideoModal } from '../components/WatchVideoModal';
+import { CourseDetailsModal } from '../components/CourseDetailsModal';
 
 // Reusing a similar CourseCard component for consistency
-const CourseCard = ({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl, delay, onRequestQuery, onWatchVideo }: any) => (
+const CourseCard = ({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl, delay, onViewDetails }: any) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -35,19 +36,12 @@ const CourseCard = ({ image, title, instructor, rating, location, duration, stud
         <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {students}</span>
       </div>
       
-      <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto gap-2">
+      <div className="pt-4 border-t border-gray-100 mt-auto flex gap-2">
         <button 
-          onClick={() => onWatchVideo && onWatchVideo(title, image, videoUrl)} 
-          className="px-3 py-2 bg-gray-50 hover:bg-red-50 text-gray-700 hover:text-[var(--color-primary)] font-bold rounded-lg transition-all text-xs flex items-center gap-1.5 border border-gray-200 hover:border-red-200"
+          onClick={() => onViewDetails({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl })} 
+          className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-red-700 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-sm"
         >
-          <Play className="w-3.5 h-3.5 fill-red-600 text-red-600" /> Watch Video
-        </button>
-
-        <button 
-          onClick={() => onRequestQuery(title)} 
-          className="px-3.5 py-2 bg-red-50 text-[var(--color-primary)] font-bold rounded-lg hover:bg-[var(--color-primary)] hover:text-white transition-colors text-xs"
-        >
-          Request Query
+          View Details
         </button>
       </div>
     </div>
@@ -55,142 +49,136 @@ const CourseCard = ({ image, title, instructor, rating, location, duration, stud
 );
 
 export const Courses = () => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<any[]>([]);
-  const [subjects, setSubjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSubject, setSelectedSubject] = useState('All');
+  const [courseSearchQuery, setCourseSearchQuery] = useState('');
+  const defaultSubjects = ['Mathematics', 'Science', 'English'];
+  const [subjectsList, setSubjectsList] = useState<string[]>(defaultSubjects);
+  const [selectedCourseForDetails, setSelectedCourseForDetails] = useState<any | null>(null);
   const [selectedCourseForQuery, setSelectedCourseForQuery] = useState<string | null>(null);
   const [selectedWatchVideo, setSelectedWatchVideo] = useState<{ title: string; image?: string; videoUrl?: string } | null>(null);
-  
-  // Subject filtering and expanding state
-  const [subjectSearchQuery, setSubjectSearchQuery] = useState('');
-  const [showAllSubjects, setShowAllSubjects] = useState(false);
 
   useEffect(() => {
     // Fetch courses
     fetch('http://localhost:5000/api/courses')
       .then(res => res.json())
       .then(data => {
-        setCourses(data);
+        const fetchedCourses = Array.isArray(data) ? data : [];
+        setCourses(fetchedCourses);
+        setLoading(false);
       })
       .catch(err => {
         console.error("Error fetching courses:", err);
+        setLoading(false);
       });
 
-    // Fetch subjects
+    // Fetch subjects dynamically from backend (Admin Panel /api/subjects)
     fetch('http://localhost:5000/api/subjects')
       .then(res => res.json())
       .then(data => {
-        setSubjects(data);
-        setLoading(false);
+        if (Array.isArray(data) && data.length > 0) {
+          const names = data.map((s: any) => s.name).filter(Boolean);
+          if (names.length > 0) {
+            setSubjectsList(names);
+          }
+        }
       })
-      .catch(err => {
-        console.error("Error fetching subjects:", err);
-        setLoading(false);
-      });
+      .catch(err => console.error("Error fetching subjects:", err));
   }, []);
 
-  const filteredSubjects = subjects.filter(subject => 
-    subject.name.toLowerCase().includes(subjectSearchQuery.toLowerCase())
-  );
+  const getSubjectCount = (subjectName: string) => {
+    if (subjectName === 'All') return courses.length;
+    return courses.filter(c => c.subject?.toLowerCase().trim() === subjectName.toLowerCase().trim()).length;
+  };
 
-  const displayedSubjects = showAllSubjects ? filteredSubjects : filteredSubjects.slice(0, 12);
+  const filteredCourses = courses.filter(c => {
+    const matchesSubject = selectedSubject === 'All' || c.subject?.toLowerCase().trim() === selectedSubject.toLowerCase().trim();
+    const query = courseSearchQuery.toLowerCase().trim();
+    const matchesSearch = !query || 
+      c.title?.toLowerCase().includes(query) || 
+      c.subject?.toLowerCase().includes(query) ||
+      c.location?.toLowerCase().includes(query);
+    return matchesSubject && matchesSearch;
+  });
 
   return (
     <div className="bg-gray-50 min-h-screen pb-24">
-      
-      {/* Header */}
-      <section className="bg-white py-20 border-b border-gray-100 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-red-50 to-transparent opacity-60"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Courses</h1>
-          <p className="text-lg text-gray-500 max-w-2xl">Discover and master new skills. Browse through our extensive directory of subjects or check out our trending courses below.</p>
-        </div>
-      </section>
-
-      {/* Subjects Directory Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-20">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <h2 className="text-3xl font-bold text-gray-900">Explore by Subject</h2>
-          <div className="relative w-full md:w-72">
-            <input 
-              type="text" 
-              placeholder="Search subjects..." 
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-white shadow-sm"
-              value={subjectSearchQuery}
-              onChange={(e) => {
-                setSubjectSearchQuery(e.target.value);
-                setShowAllSubjects(true); // Auto expand when searching
-              }}
-            />
-            <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          </div>
-        </div>
-
-        {loading ? (
-          <div className="flex justify-center py-10">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--color-primary)]"></div>
-          </div>
-        ) : (
-          <>
-            {filteredSubjects.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                {displayedSubjects.map((subject, index) => (
-                  <motion.div
-                    key={subject._id || index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.05 * (index % 12) }}
-                  >
-                    <Link 
-                      to={`/courses/${subject.name.toLowerCase().replace(/\s+/g, '-')}`}
-                      className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[var(--color-primary)] transition-all flex flex-col items-center justify-center text-center gap-3 group h-full"
-                    >
-                      <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center text-[var(--color-primary)] group-hover:scale-110 transition-transform">
-                        <BookOpen className="w-6 h-6" />
-                      </div>
-                      <span className="font-semibold text-gray-800 group-hover:text-[var(--color-primary)]">{subject.name}</span>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
-                <p className="text-gray-500">No subjects found matching "{subjectSearchQuery}".</p>
-              </div>
-            )}
-
-            {!subjectSearchQuery && filteredSubjects.length > 12 && (
-              <div className="mt-10 flex justify-center">
-                <button 
-                  onClick={() => setShowAllSubjects(!showAllSubjects)}
-                  className="px-6 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] rounded-xl font-bold transition-all shadow-sm"
-                >
-                  {showAllSubjects ? 'Back to Top Subjects' : 'View All Subjects'}
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </section>
-
       {/* All Courses Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-16 border-t border-gray-100">
-        <div className="flex justify-between items-center mb-8">
+      <section className="w-full px-6 sm:px-10 lg:px-16 pt-12">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
           <div>
             <h2 className="text-3xl font-bold text-gray-900">All Available Courses</h2>
             <p className="text-gray-500 text-sm mt-1">Explore our complete catalog of certified courses and training programs</p>
           </div>
-          <span className="text-xs font-extrabold text-[var(--color-primary)] bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
-            {courses.length} {courses.length === 1 ? 'Course' : 'Courses'} Total
-          </span>
+
+          {/* Middle Subject Filter Bar */}
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1 px-1 bg-white border border-gray-200 rounded-2xl shadow-xs max-w-full">
+            <button
+              onClick={() => setSelectedSubject('All')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                selectedSubject === 'All'
+                  ? 'bg-[var(--color-primary)] text-white shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+            >
+              <span>All Subjects</span>
+              <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-extrabold ${
+                selectedSubject === 'All' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+              }`}>
+                {getSubjectCount('All')}
+              </span>
+            </button>
+            {subjectsList.map((subjectName, idx) => {
+              const count = getSubjectCount(subjectName);
+              const isSelected = selectedSubject.toLowerCase().trim() === subjectName.toLowerCase().trim();
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedSubject(subjectName)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                    isSelected
+                      ? 'bg-[var(--color-primary)] text-white shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  <span>{subjectName}</span>
+                  <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-extrabold ${
+                    isSelected ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Search Bar */}
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="relative w-full sm:w-64">
+              <input 
+                type="text" 
+                placeholder="Search courses..." 
+                value={courseSearchQuery}
+                onChange={(e) => setCourseSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-white text-xs font-medium shadow-xs transition-all"
+              />
+              <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            </div>
+
+            <span className="hidden sm:inline-flex text-xs font-extrabold text-[var(--color-primary)] bg-red-50 px-3.5 py-2 rounded-full border border-red-100 shrink-0">
+              {filteredCourses.length} Total
+            </span>
+          </div>
         </div>
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
           </div>
-        ) : courses.length > 0 ? (
+        ) : filteredCourses.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {courses.map((course, index) => (
+            {filteredCourses.map((course, index) => (
               <CourseCard 
                 key={course._id || index}
                 image={course.image}
@@ -204,8 +192,7 @@ export const Courses = () => {
                 subject={course.subject}
                 videoUrl={course.videoUrl}
                 delay={0.1 * (index % 4 + 1)}
-                onRequestQuery={(title: string) => setSelectedCourseForQuery(title)}
-                onWatchVideo={(title: string, image?: string, videoUrl?: string) => setSelectedWatchVideo({ title, image, videoUrl })}
+                onViewDetails={(cDetails: any) => navigate('/course-details', { state: { course: cDetails } })}
               />
             ))}
           </div>
@@ -216,6 +203,19 @@ export const Courses = () => {
         )}
       </section>
       
+      {/* Course Details Modal */}
+      {selectedCourseForDetails && (
+        <CourseDetailsModal
+          course={selectedCourseForDetails}
+          onClose={() => setSelectedCourseForDetails(null)}
+          onRequestQuery={(title: string) => setSelectedCourseForQuery(title)}
+          onWatchVideo={(title: string, image?: string, videoUrl?: string) => {
+            setSelectedCourseForDetails(null);
+            navigate('/course-details', { state: { course: { title, image, videoUrl } } });
+          }}
+        />
+      )}
+
       {/* Request Query Modal */}
       {selectedCourseForQuery && (
         <RequestQueryModal 

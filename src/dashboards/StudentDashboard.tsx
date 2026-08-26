@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { io, Socket } from 'socket.io-client';
-import { 
-  BookOpen, Calendar, Clock, Trophy, Target, PlayCircle, 
+import {
+  BookOpen, Calendar, Clock, Trophy, Target, PlayCircle,
   FileText, CheckCircle, Bell, Settings, LogOut, ChevronRight,
   TrendingUp, Award, User, ArrowLeft, MessageSquare, Menu, X, Download, Send, Camera, Upload, RefreshCw
 } from 'lucide-react';
@@ -11,13 +11,12 @@ import logoImg from '../images/Untitled design.png';
 import { ProgressiveFluxLoader } from '../components/ProgressiveFluxLoader';
 
 const SidebarItem = ({ icon: Icon, label, active, onClick }: any) => (
-  <button 
+  <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-      active 
-        ? 'bg-[var(--color-primary)] text-white shadow-md' 
+    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${active
+        ? 'bg-[var(--color-primary)] text-white shadow-md'
         : 'text-stone-700 hover:bg-amber-100/50 hover:text-[var(--color-primary)]'
-    }`}
+      }`}
   >
     <Icon className="w-5 h-5" />
     <span className="font-medium">{label}</span>
@@ -88,7 +87,7 @@ export const StudentDashboard = () => {
             const user = data[0];
             if (user.studentId) setStudentId(user.studentId);
             if (user._id) localStorage.setItem('userId', user._id);
-            
+
             if (user.performanceScores) {
               setPerformanceScores(user.performanceScores);
             }
@@ -145,7 +144,7 @@ export const StudentDashboard = () => {
     // Connect Socket
     const newSocket = io('http://localhost:5000');
     setSocket(newSocket);
-    
+
     newSocket.on('connect', () => {
       newSocket.emit('joinRoom', activeUserId);
     });
@@ -163,12 +162,12 @@ export const StudentDashboard = () => {
 
     // Fetch chat history
     fetch(`http://localhost:5000/api/chat/between/${activeUserId}/${adminTeacherId}`)
-    .then(res => res.json())
-    .then(data => {
-      if (Array.isArray(data)) setChatMessages(data);
-      scrollToBottom();
-    })
-    .catch(err => console.error("Error fetching chat:", err));
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setChatMessages(data);
+        scrollToBottom();
+      })
+      .catch(err => console.error("Error fetching chat:", err));
 
     return () => { newSocket.disconnect(); };
   }, []);
@@ -420,7 +419,7 @@ export const StudentDashboard = () => {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)}></div>
-          <motion.aside 
+          <motion.aside
             initial={{ x: -300 }}
             animate={{ x: 0 }}
             className="w-72 bg-[#FAF6F0] flex flex-col h-screen relative z-50 overflow-y-auto shadow-2xl pb-4"
@@ -433,7 +432,7 @@ export const StudentDashboard = () => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <div className="p-4">
               <nav className="flex flex-col gap-2">
                 <SidebarItem icon={Target} label="Overview" active={activeTab === 'Overview'} onClick={() => { setActiveTab('Overview'); setIsMobileMenuOpen(false); }} />
@@ -442,7 +441,7 @@ export const StudentDashboard = () => {
                 <SidebarItem icon={MessageSquare} label="Message Teacher" active={activeTab === 'Message Teacher'} onClick={() => { setActiveTab('Message Teacher'); setIsMobileMenuOpen(false); }} />
               </nav>
             </div>
-            
+
             <div className="mt-auto p-4 border-t border-[#EBE3D5] bg-[#F3ECE0]/40">
               <nav className="flex flex-col gap-2">
                 <SidebarItem icon={User} label="Profile" active={activeTab === 'Profile'} onClick={() => { setActiveTab('Profile'); setIsMobileMenuOpen(false); }} />
@@ -465,7 +464,7 @@ export const StudentDashboard = () => {
             </Link>
             <span className="text-xs text-stone-500 font-normal border border-stone-300/60 bg-[#F3ECE0] px-1.5 py-0.5 rounded">Student</span>
           </div>
-          
+
           <nav className="flex flex-col gap-2">
             <SidebarItem icon={Target} label="Overview" active={activeTab === 'Overview'} onClick={() => setActiveTab('Overview')} />
             <SidebarItem icon={FileText} label="Assignments" active={activeTab === 'Assignments'} onClick={() => setActiveTab('Assignments')} />
@@ -473,7 +472,7 @@ export const StudentDashboard = () => {
             <SidebarItem icon={MessageSquare} label="Message Teacher" active={activeTab === 'Message Teacher'} onClick={() => setActiveTab('Message Teacher')} />
           </nav>
         </div>
-        
+
         <div className="mt-auto p-6 border-t border-[#EBE3D5]">
           <nav className="flex flex-col gap-2">
             <SidebarItem icon={User} label="Profile" active={activeTab === 'Profile'} onClick={() => setActiveTab('Profile')} />
@@ -490,7 +489,7 @@ export const StudentDashboard = () => {
         {/* Top Header */}
         <header className="bg-white border-b border-gray-100 sticky top-0 z-10 px-4 md:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button 
+            <button
               className="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
               onClick={() => setIsMobileMenuOpen(true)}
             >
@@ -498,7 +497,7 @@ export const StudentDashboard = () => {
             </button>
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">{activeTab}</h1>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <button className="relative p-2 text-gray-500 hover:bg-gray-50 rounded-full transition-colors">
               <Bell className="w-6 h-6" />
@@ -515,7 +514,7 @@ export const StudentDashboard = () => {
         <div className="p-4 md:p-8 max-w-7xl mx-auto">
           {activeTab === 'Overview' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 md:space-y-8">
-              
+
 
 
               {/* Results & Stats Bar Chart Section */}
@@ -640,19 +639,19 @@ export const StudentDashboard = () => {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Full Name</label>
-                          <input type="text" value={editData.fullName} onChange={(e) => setEditData({...editData, fullName: e.target.value})} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
+                          <input type="text" value={editData.fullName} onChange={(e) => setEditData({ ...editData, fullName: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
                         </div>
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Age</label>
-                          <input type="text" value={editData.age} onChange={(e) => setEditData({...editData, age: e.target.value})} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
+                          <input type="text" value={editData.age} onChange={(e) => setEditData({ ...editData, age: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
                         </div>
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Date of Birth</label>
-                          <input type="date" value={editData.dob} onChange={(e) => setEditData({...editData, dob: e.target.value})} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
+                          <input type="date" value={editData.dob} onChange={(e) => setEditData({ ...editData, dob: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
                         </div>
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Gender</label>
-                          <select value={editData.gender} onChange={(e) => setEditData({...editData, gender: e.target.value})} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]">
+                          <select value={editData.gender} onChange={(e) => setEditData({ ...editData, gender: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
@@ -666,11 +665,11 @@ export const StudentDashboard = () => {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Email Address</label>
-                          <input type="email" value={editData.email} onChange={(e) => setEditData({...editData, email: e.target.value})} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
+                          <input type="email" value={editData.email} onChange={(e) => setEditData({ ...editData, email: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
                         </div>
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Phone Number</label>
-                          <input type="tel" value={editData.phone} onChange={(e) => setEditData({...editData, phone: e.target.value})} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
+                          <input type="tel" value={editData.phone} onChange={(e) => setEditData({ ...editData, phone: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)]" />
                         </div>
                         <div>
                           <label className="block text-sm text-gray-500 mb-1">Enrollment ID</label>
@@ -747,12 +746,12 @@ export const StudentDashboard = () => {
                     Have a question about an assignment or need extra help? Send a direct message to your instructors here.
                   </p>
                 </div>
-                
+
                 <div className="mt-8 space-y-6">
 
                   <div className="bg-gray-50 rounded-2xl p-4 h-[400px] overflow-y-auto flex flex-col gap-4 border border-gray-100">
                     {chatMessages.length === 0 ? (
-                      <div className="m-auto text-gray-400 text-sm text-center">No messages yet.<br/>Send a message to start the conversation!</div>
+                      <div className="m-auto text-gray-400 text-sm text-center">No messages yet.<br />Send a message to start the conversation!</div>
                     ) : (
                       chatMessages.map((msg, i) => {
                         const isMe = msg.senderId === activeUserId || msg.senderId === localStorage.getItem('userEmail') || msg.senderId === localStorage.getItem('userId');
@@ -768,8 +767,8 @@ export const StudentDashboard = () => {
                     <div ref={messagesEndRef} />
                   </div>
                   <div className="flex items-end gap-2 mt-4">
-                    <textarea 
-                      rows={2} 
+                    <textarea
+                      rows={2}
                       value={studentMessageInput}
                       onChange={(e) => setStudentMessageInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -778,11 +777,11 @@ export const StudentDashboard = () => {
                           handleSendMessage();
                         }
                       }}
-                      placeholder="Type your message here..." 
+                      placeholder="Type your message here..."
                       className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-white text-gray-900 font-medium resize-none"
                     ></textarea>
-                    <button 
-                      onClick={handleSendMessage} 
+                    <button
+                      onClick={handleSendMessage}
                       disabled={!studentMessageInput.trim()}
                       className="px-6 py-3 h-[60px] bg-[var(--color-primary)] text-white font-bold rounded-xl hover:bg-red-700 transition-colors shadow-sm flex items-center justify-center disabled:opacity-50"
                     >
@@ -832,7 +831,7 @@ export const StudentDashboard = () => {
                             <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full">New</span>
                           )}
                         </div>
-                        
+
                         <h3 className="text-lg font-bold text-gray-900 mb-1">{assignment.title}</h3>
                         {assignment.description && (
                           <p className="text-sm text-gray-500 mb-4 line-clamp-2">{assignment.description}</p>
@@ -852,15 +851,15 @@ export const StudentDashboard = () => {
                                     Photo {pIdx + 1}: {photo.fileName || 'Solution.jpg'}
                                   </span>
                                   <div className="flex items-center gap-2">
-                                    <a 
-                                      href={photo.fileUrl} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer" 
+                                    <a
+                                      href={photo.fileUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
                                       className="font-bold underline text-green-700 hover:text-green-900 flex items-center gap-1 text-[11px]"
                                     >
                                       <Camera className="w-3 h-3" /> View
                                     </a>
-                                    <button 
+                                    <button
                                       onClick={() => handleDeleteAssignmentPhoto(assignId, photo.fileUrl)}
                                       className="w-4 h-4 rounded-full bg-red-100 text-red-600 hover:bg-red-200 flex items-center justify-center font-bold text-[10px]"
                                       title="Remove photo"
@@ -873,7 +872,7 @@ export const StudentDashboard = () => {
                             </div>
                           </div>
                         )}
-                        
+
                         {isUploading && (
                           <div className="mt-4 p-4 bg-slate-900/90 backdrop-blur rounded-xl border border-slate-800 shadow-inner">
                             <ProgressiveFluxLoader
@@ -912,12 +911,12 @@ export const StudentDashboard = () => {
                                   <Camera className="w-3.5 h-3.5" />
                                 )}
                                 <span>{isUploading ? 'Uploading...' : photoCount > 0 ? `+ Add Photo (${photoCount}/6)` : 'Upload Photo'}</span>
-                                <input 
-                                  type="file" 
-                                  accept="image/*,.pdf" 
+                                <input
+                                  type="file"
+                                  accept="image/*,.pdf"
                                   multiple
                                   onChange={(e) => handleAssignmentPhotoUpload(assignId, e)}
-                                  className="hidden" 
+                                  className="hidden"
                                   disabled={isUploading}
                                 />
                               </label>
@@ -925,9 +924,9 @@ export const StudentDashboard = () => {
 
                             {/* Download Original Assignment PDF */}
                             {assignment.fileUrl && (
-                              <a 
-                                href={assignment.fileUrl} 
-                                target="_blank" 
+                              <a
+                                href={assignment.fileUrl}
+                                target="_blank"
                                 rel="noopener noreferrer"
                                 title="Download Assignment PDF"
                                 className="w-8 h-8 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-colors"
@@ -960,7 +959,7 @@ export const StudentDashboard = () => {
                   <h2 className="text-2xl font-bold text-gray-900">Practice Tests & Mock Exams</h2>
                   <p className="text-sm text-gray-500">Sharpen your knowledge with timed tests and auto-graded MCQs</p>
                 </div>
-                <button 
+                <button
                   onClick={() => {
                     fetch('http://localhost:5000/api/tests/student')
                       .then(res => res.json())
@@ -1028,27 +1027,16 @@ export const StudentDashboard = () => {
                           </div>
                         )}
 
-                        <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between gap-2">
-                          {test.fileUrl ? (
-                            <a 
-                              href={test.fileUrl} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="text-xs text-[var(--color-primary)] font-bold hover:underline flex items-center gap-1"
-                            >
-                              <Download className="w-3.5 h-3.5" /> PDF
-                            </a>
-                          ) : <span />}
-
+                        <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-end gap-2">
                           {attempt ? (
-                            <button 
+                            <button
                               onClick={() => setTestResultModal({ ...attempt, testTitle: test.title })}
                               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm"
                             >
                               View Result
                             </button>
                           ) : qCount > 0 ? (
-                            <button 
+                            <button
                               onClick={() => handleStartTest(test)}
                               className="px-4 py-2 bg-[var(--color-primary)] hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm flex items-center gap-1.5"
                             >
@@ -1085,10 +1073,10 @@ export const StudentDashboard = () => {
                         </span>
                         <h3 className="text-2xl font-extrabold text-gray-900 mt-1">{activeTest.title}</h3>
                       </div>
-                      <button 
+                      <button
                         onClick={() => {
                           if (confirm('Cancel test execution? Progress will be lost.')) setActiveTest(null);
-                        }} 
+                        }}
                         className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
                       >
                         <X className="w-6 h-6" />
@@ -1109,11 +1097,10 @@ export const StudentDashboard = () => {
                                   key={oIdx}
                                   type="button"
                                   onClick={() => handleSelectTestOption(qIdx, oIdx)}
-                                  className={`p-3 rounded-xl border text-left font-medium transition-all text-sm flex items-center justify-between ${
-                                    isSelected 
-                                      ? 'bg-red-50 border-[var(--color-primary)] text-[var(--color-primary)] shadow-sm' 
+                                  className={`p-3 rounded-xl border text-left font-medium transition-all text-sm flex items-center justify-between ${isSelected
+                                      ? 'bg-red-50 border-[var(--color-primary)] text-[var(--color-primary)] shadow-sm'
                                       : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-100'
-                                  }`}
+                                    }`}
                                 >
                                   <span>{String.fromCharCode(65 + oIdx)}. {opt}</span>
                                   <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary)]' : 'border-gray-300'}`}>

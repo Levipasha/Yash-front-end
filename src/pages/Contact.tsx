@@ -66,21 +66,21 @@ export const Contact = () => {
       {/* Header */}
       <section className="bg-gray-900 py-20 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-red-500/20 via-transparent to-transparent opacity-50"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center text-white">
+        <div className="w-full px-6 sm:px-10 lg:px-16 relative z-10 text-center text-white">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Get in Touch</h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">Have questions about our courses, pricing, or need technical support? Our team is here to help you.</p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-16 z-20">
+      <section className="py-16 w-full px-6 sm:px-10 lg:px-16 relative -mt-16 z-20">
         <div className="grid lg:grid-cols-3 gap-8">
           
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-6">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 h-full flex flex-col justify-between">
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Contact Information</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
                 
                 <div className="space-y-6 text-gray-600">
                   <div className="flex gap-4">
@@ -133,7 +133,7 @@ export const Contact = () => {
                 </div>
               </div>
               
-              <div className="mt-12 pt-8 border-t border-gray-100">
+              <div className="pt-6 border-t border-gray-100">
                 <h4 className="font-bold text-gray-900 mb-4">Connect & Follow Us</h4>
                 <div className="flex items-center gap-3 flex-wrap">
                   {/* Instagram */}

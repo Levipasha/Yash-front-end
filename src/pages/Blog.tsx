@@ -70,43 +70,11 @@ export const Blog = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       
-      {/* Header */}
-      <section className="bg-white py-20 border-b border-gray-100 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-red-50 to-transparent opacity-50"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="w-16 h-16 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-red-100">
-            <BookOpen className="w-8 h-8" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Insights & Resources</h1>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-10">Discover the latest trends in education, study tips, and platform updates from our experts.</p>
-          
-          <div className="max-w-xl mx-auto relative">
-            <input 
-              type="text" 
-              placeholder="Search articles..." 
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setVisibleCount(6);
-              }}
-              className="w-full pl-14 pr-28 py-4 rounded-full border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 text-base transition-all bg-white"
-            />
-            <Search className="w-6 h-6 text-gray-400 absolute left-5 top-1/2 -translate-y-1/2" />
-            {searchTerm && (
-              <button 
-                onClick={() => setSearchTerm('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400 hover:text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-        </div>
-      </section>
+
 
       {/* Categories */}
       <section className="py-8 border-b border-gray-100 bg-white sticky top-0 z-20 backdrop-blur-md bg-white/90">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center gap-3 flex-wrap">
+        <div className="w-full px-6 sm:px-10 lg:px-16 flex items-center justify-center gap-3 flex-wrap">
           {categories.map((cat, i) => (
             <button 
               key={i} 
@@ -127,7 +95,7 @@ export const Blog = () => {
       </section>
 
       {/* Blog Grid */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 w-full px-6 sm:px-10 lg:px-16">
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
@@ -149,21 +117,17 @@ export const Blog = () => {
               ))}
             </div>
 
-            {/* Load More Button / Count Status */}
-            <div className="mt-16 flex flex-col items-center gap-3">
-              {hasMore ? (
+            {/* Load More Button */}
+            {hasMore && (
+              <div className="mt-16 flex flex-col items-center gap-3">
                 <button 
                   onClick={handleLoadMore}
                   className="flex items-center gap-2 px-8 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-all shadow-lg shadow-red-900/20 active:scale-95"
                 >
                   Load More Articles ({filteredBlogs.length - visibleCount} remaining) <ArrowRight className="w-5 h-5" />
                 </button>
-              ) : (
-                <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 bg-white px-6 py-2.5 rounded-full border border-gray-200 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Showing all {filteredBlogs.length} articles
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </>
         ) : (
           <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm max-w-xl mx-auto">
