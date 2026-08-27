@@ -556,7 +556,7 @@ export const ParentDashboard = () => {
       <aside className="w-64 bg-[#FAF6F0] border-r border-[#EBE3D5] hidden lg:flex flex-col h-screen sticky top-0 overflow-y-auto pb-4">
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
-            <Link to="/">
+            <Link to="/dashboard/parent" onClick={() => setActiveTab('Overview')}>
               <img src={logoImg} alt="YashEdu Logo" className="h-12 w-auto object-contain" />
             </Link>
             <span className="text-xs text-stone-500 font-normal border border-stone-300/60 bg-[#F3ECE0] px-1.5 py-0.5 rounded">Parent</span>
@@ -586,7 +586,7 @@ export const ParentDashboard = () => {
       <main className="flex-1 overflow-y-auto">
         <header className="bg-white border-b border-gray-100 sticky top-0 z-10 px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/" className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Back to Home">
+            <Link to="/dashboard/parent" onClick={() => setActiveTab('Overview')} className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Dashboard">
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </Link>
             <h1 className="text-2xl font-bold text-gray-900">{activeTab}</h1>

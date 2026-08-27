@@ -426,7 +426,7 @@ export const StudentDashboard = () => {
             className="w-72 bg-[#FAF6F0] flex flex-col h-screen relative z-50 overflow-y-auto shadow-2xl pb-4"
           >
             <div className="p-6 flex items-center justify-between border-b border-[#EBE3D5]">
-              <Link to="/">
+              <Link to="/dashboard/student" onClick={() => setActiveTab('Overview')}>
                 <img src={logoImg} alt="YashEdu Logo" className="h-12 w-auto object-contain" />
               </Link>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-stone-400 hover:text-stone-600 rounded-lg hover:bg-amber-100/50 transition-colors">
@@ -460,7 +460,7 @@ export const StudentDashboard = () => {
       <aside className="w-64 bg-[#FAF6F0] border-r border-[#EBE3D5] hidden lg:flex flex-col h-screen sticky top-0 overflow-y-auto pb-4">
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
-            <Link to="/">
+            <Link to="/dashboard/student" onClick={() => setActiveTab('Overview')}>
               <img src={logoImg} alt="YashEdu Logo" className="h-12 w-auto object-contain" />
             </Link>
             <span className="text-xs text-stone-500 font-normal border border-stone-300/60 bg-[#F3ECE0] px-1.5 py-0.5 rounded">Student</span>

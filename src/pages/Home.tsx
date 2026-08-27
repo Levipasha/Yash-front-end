@@ -39,6 +39,12 @@ export const Home = () => {
   });
 
   useEffect(() => {
+    const userRole = localStorage.getItem('userRole');
+    if (userRole) {
+      navigate(`/dashboard/${userRole}`, { replace: true });
+      return;
+    }
+
     fetch(`${API_BASE_URL}/api/home-learning`)
       .then(res => res.json())
       .then(data => {
@@ -47,7 +53,6 @@ export const Home = () => {
       .catch(err => console.warn('Using default home config:', err));
 
     fetch(`${API_BASE_URL}/api/about`)
-
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -59,7 +64,7 @@ export const Home = () => {
         }
       })
       .catch(err => console.warn('Using default about data in home:', err));
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gray-50">

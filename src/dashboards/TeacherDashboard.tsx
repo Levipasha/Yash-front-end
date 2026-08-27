@@ -31,7 +31,7 @@ export const TeacherDashboard = () => {
       <aside className="w-64 bg-gray-900 text-white hidden lg:flex flex-col h-screen sticky top-0 overflow-y-auto pb-4">
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
-            <Link to="/">
+            <Link to="/dashboard/teacher" onClick={() => setActiveTab('Overview')}>
               <img src={logoImg} alt="YashEdu Logo" className="h-12 w-auto object-contain bg-white/10 p-1 rounded-lg" />
             </Link>
             <span className="text-xs text-gray-400 font-normal border border-gray-700 px-1.5 py-0.5 rounded">Teacher</span>
