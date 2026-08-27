@@ -10,21 +10,21 @@ const BlogPost = ({ image, category, title, excerpt, author, date, delay }: any)
     transition={{ delay, duration: 0.5 }}
     className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all group flex flex-col"
   >
-    <div className="relative h-56 overflow-hidden">
+    <div className="relative h-28 sm:h-56 overflow-hidden">
       <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow-sm">
+      <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-white/90 backdrop-blur-sm px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold text-red-600 shadow-sm">
         {category}
       </div>
     </div>
-    <div className="p-6 flex flex-col flex-grow">
-      <h3 className="font-bold text-xl text-gray-900 mb-3 group-hover:text-red-600 transition-colors line-clamp-2">{title}</h3>
-      <p className="text-gray-500 mb-6 flex-grow line-clamp-3 leading-relaxed text-sm">{excerpt}</p>
+    <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
+      <div>
+        <h3 className="font-bold text-xs sm:text-xl text-gray-900 mb-1.5 sm:mb-3 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">{title}</h3>
+        <p className="text-gray-500 mb-3 sm:mb-6 flex-grow line-clamp-2 sm:line-clamp-3 leading-relaxed text-[11px] sm:text-sm">{excerpt}</p>
+      </div>
       
-      <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
-        <div className="flex items-center gap-4 text-xs text-gray-500 font-medium">
-          <span className="flex items-center gap-1.5"><User className="w-4 h-4 text-red-500" /> {author}</span>
-          <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4 text-gray-400" /> {date}</span>
-        </div>
+      <div className="flex flex-wrap items-center justify-between pt-2 sm:pt-4 border-t border-gray-100 mt-auto text-[10px] sm:text-xs text-gray-500 font-medium gap-1 sm:gap-4">
+        <span className="flex items-center gap-1 sm:gap-1.5 truncate max-w-[110px]"><User className="w-3 h-3 sm:w-4 sm:h-4 text-red-500 shrink-0" /> {author}</span>
+        <span className="flex items-center gap-1 sm:gap-1.5 shrink-0"><Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 shrink-0" /> {date}</span>
       </div>
     </div>
   </motion.div>
@@ -115,8 +115,8 @@ export const Blog = () => {
 
 
       {/* Categories */}
-      <section className="py-8 border-b border-gray-100 bg-white sticky top-0 z-20 backdrop-blur-md bg-white/90">
-        <div className="w-full px-6 sm:px-10 lg:px-16 flex items-center justify-center gap-3 flex-wrap">
+      <section className="py-4 sm:py-8 border-b border-gray-100 bg-white sticky top-0 z-20 backdrop-blur-md bg-white/90">
+        <div className="w-full px-4 sm:px-10 lg:px-16 flex items-center sm:justify-center gap-2 sm:gap-3 overflow-x-auto py-1 sm:flex-wrap no-scrollbar">
           {categories.map((cat, i) => (
             <button 
               key={i} 
@@ -124,7 +124,7 @@ export const Blog = () => {
                 setSelectedCategory(cat);
                 setVisibleCount(6);
               }}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all shadow-sm ${
+              className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-bold transition-all shadow-sm whitespace-nowrap ${
                 selectedCategory === cat 
                   ? 'bg-red-600 text-white shadow-red-200' 
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -137,14 +137,14 @@ export const Blog = () => {
       </section>
 
       {/* Blog Grid */}
-      <section className="py-16 w-full px-6 sm:px-10 lg:px-16">
+      <section className="py-8 sm:py-16 w-full px-4 sm:px-10 lg:px-16">
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
           </div>
         ) : visibleBlogs.length > 0 ? (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
               {visibleBlogs.map((blog, index) => (
                 <BlogPost 
                   key={blog._id || index}

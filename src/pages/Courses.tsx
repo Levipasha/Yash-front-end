@@ -15,31 +15,33 @@ const CourseCard = ({ image, title, instructor, rating, location, duration, stud
     transition={{ delay, duration: 0.5 }}
     className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all group flex flex-col"
   >
-    <div className="relative h-48 overflow-hidden">
+    <div className="relative h-28 sm:h-48 overflow-hidden">
       <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
       
       {/* Subject Badge */}
-      <div className="absolute top-4 left-4 bg-purple-100/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-purple-700">
+      <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-purple-100/90 backdrop-blur-sm px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold text-purple-700">
         {subject || 'Uncategorized'}
       </div>
 
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-sm font-bold flex items-center gap-1">
-        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+      <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md sm:rounded-lg text-[11px] sm:text-sm font-bold flex items-center gap-1">
+        <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-yellow-400" />
         {rating}
       </div>
     </div>
-    <div className="p-6 flex flex-col flex-grow">
-      <h3 className="font-bold text-xl text-gray-900 mb-4 group-hover:text-[var(--color-primary)] transition-colors line-clamp-2">{title}</h3>
-      
-      <div className="flex items-center gap-4 text-xs text-gray-500 mb-6 font-medium">
-        <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {location || duration || 'Location N/A'}</span>
-        <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {students}</span>
+    <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
+      <div>
+        <h3 className="font-bold text-xs sm:text-xl text-gray-900 mb-2 sm:mb-4 group-hover:text-[var(--color-primary)] transition-colors line-clamp-2 leading-snug">{title}</h3>
+        
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-4 text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-6 font-medium">
+          <span className="flex items-center gap-1 truncate max-w-[120px]"><MapPin className="w-3 h-3 shrink-0" /> {location || duration || 'N/A'}</span>
+          <span className="flex items-center gap-1 shrink-0"><Users className="w-3 h-3 shrink-0" /> {students}</span>
+        </div>
       </div>
       
-      <div className="pt-4 border-t border-gray-100 mt-auto flex gap-2">
+      <div className="pt-2 sm:pt-4 border-t border-gray-100 mt-auto flex gap-2">
         <button 
           onClick={() => onViewDetails({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl })} 
-          className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-red-700 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-sm"
+          className="flex-1 py-1.5 sm:py-2.5 bg-[var(--color-primary)] hover:bg-red-700 text-white font-bold rounded-lg sm:rounded-xl transition-all text-[11px] sm:text-xs flex items-center justify-center gap-2 shadow-sm"
         >
           View Details
         </button>
@@ -238,8 +240,8 @@ export const Courses = () => {
           </div>
 
           {/* Right Search Bar */}
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="relative w-full sm:w-64">
+          <div className="flex items-center justify-between sm:justify-start gap-2.5 w-full sm:w-auto shrink-0 mt-2 lg:mt-0">
+            <div className="relative flex-1 sm:w-64">
               <input 
                 type="text" 
                 placeholder="Search courses..." 
@@ -250,7 +252,7 @@ export const Courses = () => {
               <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             </div>
 
-            <span className="hidden sm:inline-flex text-xs font-extrabold text-[var(--color-primary)] bg-red-50 px-3.5 py-2 rounded-full border border-red-100 shrink-0">
+            <span className="inline-flex text-[11px] sm:text-xs font-extrabold text-[var(--color-primary)] bg-red-50 px-3 py-2 rounded-full border border-red-100 shrink-0 whitespace-nowrap">
               {filteredCourses.length} Total
             </span>
           </div>
@@ -260,7 +262,7 @@ export const Courses = () => {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
           </div>
         ) : filteredCourses.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             {filteredCourses.map((course, index) => (
               <CourseCard 
                 key={course._id || index}

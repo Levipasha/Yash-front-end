@@ -108,6 +108,7 @@ export const Navbar = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-600 hover:text-gray-900 focus:outline-none p-2"
+              aria-label="Toggle Mobile Menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -115,37 +116,116 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Right-Side Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#FFFDF5] border-b border-[#F3EAD8] overflow-hidden"
-          >
-            <div className="px-4 pt-2 pb-6 flex flex-col gap-4">
-              {!isStudent && (
-                <>
-                  <Link to="/" className="text-gray-600 font-medium py-2 border-b border-gray-100">Home</Link>
-                  <Link to="/courses" className="text-gray-600 font-medium py-2 border-b border-gray-100">Courses</Link>
-                  <Link to="/blog" className="text-gray-600 font-medium py-2 border-b border-gray-100">Blogs</Link>
-                  <Link to="/about" className="text-gray-600 font-medium py-2 border-b border-gray-100">About Us</Link>
-                  <Link to="/contact" className="text-gray-600 font-medium py-2 border-b border-gray-100">Contact</Link>
-                </>
-              )}
-              
-              <div className="flex flex-col gap-3 mt-4">
-                {isLoggedIn ? (
-                  <Link to={dashboardLink} className="w-full text-center py-2 bg-[var(--color-primary)] text-white font-medium rounded-lg">Dashboard</Link>
-                ) : (
-                  <>
-                    <Link to="/login" className="w-full text-center py-2 text-[var(--color-primary)] font-medium border border-[var(--color-primary)] rounded-lg">Login</Link>
-                  </>
-                )}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 md:hidden"
+            />
+
+            {/* Right Drawer Panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+              className="fixed top-0 right-0 bottom-0 w-[70%] max-w-[260px] bg-[#FFFDF5] z-50 shadow-2xl flex flex-col md:hidden border-l border-[#F3EAD8] rounded-l-2xl overflow-hidden"
+            >
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#F3EAD8] bg-[#FAF6EE]">
+                <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
+                  <img src={logoImg} alt="YashEdu Logo" className="h-8 w-auto object-contain" />
+                  <div className="flex flex-col">
+                    <span className="text-base font-black tracking-tight text-[#D3010A] leading-none">
+                      YashEdu <span className="text-[#01274C]">Academy</span>
+                    </span>
+                    <span className="text-[8px] font-semibold text-gray-500 uppercase tracking-widest mt-0.5">
+                      Educational Institute
+                    </span>
+                  </div>
+                </Link>
+
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-1.5 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/60 transition-colors focus:outline-none"
+                  aria-label="Close Menu"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-            </div>
-          </motion.div>
+
+              {/* Drawer Content */}
+              <div className="flex-1 px-4 py-4 flex flex-col overflow-y-auto">
+                <div className="flex flex-col">
+                  {!isStudent && (
+                    <>
+                      <Link
+                        to="/"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
+                      >
+                        Home
+                      </Link>
+                      <Link
+                        to="/courses"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
+                      >
+                        Courses
+                      </Link>
+                      <Link
+                        to="/blog"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
+                      >
+                        Blogs
+                      </Link>
+                      <Link
+                        to="/about"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
+                      >
+                        About Us
+                      </Link>
+                      <Link
+                        to="/contact"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
+                      >
+                        Contact
+                      </Link>
+                    </>
+                  )}
+                </div>
+
+                <div className="mt-5 pt-3 border-t border-[#F3EAD8]">
+                  {isLoggedIn ? (
+                    <Link
+                      to={dashboardLink}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="w-full block text-center py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-sm rounded-lg shadow-sm transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/login"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="w-full block text-center py-2.5 text-[var(--color-primary)] font-bold text-sm border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white rounded-lg transition-colors"
+                    >
+                      Login
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

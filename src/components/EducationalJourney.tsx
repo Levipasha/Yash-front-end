@@ -168,7 +168,7 @@ export const EducationalJourney = () => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3, type: "spring", bounce: 0.4 }}
-              className="relative bg-white border-2 border-red-200/90 rounded-3xl p-6 md:p-8 shadow-[0_20px_45px_rgba(225,29,72,0.12)] z-20 max-w-sm ml-auto mr-auto lg:mr-0 lg:ml-12 mt-6 md:mt-10 lg:mt-14 mb-[-55px] lg:mb-[-98px] translate-x-16 lg:translate-x-56"
+              className="relative bg-white border-2 border-red-200/90 rounded-3xl p-5 sm:p-6 md:p-8 shadow-[0_20px_45px_rgba(225,29,72,0.12)] z-20 w-[92%] max-w-xs sm:max-w-sm mx-auto lg:mr-0 lg:ml-12 mt-6 md:mt-10 lg:mt-14 mb-[-55px] lg:mb-[-98px] translate-x-0 sm:translate-x-4 lg:translate-x-56"
             >
               <p className="text-xl md:text-2xl font-black text-gray-900 leading-snug mb-4 relative z-10">
                 "{config.dialogText}"

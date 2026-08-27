@@ -15,13 +15,13 @@ const FeatureCard = ({ icon: Icon, title, desc, delay }: any) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group"
+    className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group"
   >
-    <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-[var(--color-primary)] mb-4 group-hover:scale-110 transition-transform">
-      <Icon className="w-6 h-6" />
+    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-50 rounded-xl flex items-center justify-center text-[var(--color-primary)] mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
     </div>
-    <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
-    <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+    <h3 className="text-sm sm:text-lg font-bold text-gray-900 mb-1.5 sm:mb-2">{title}</h3>
+    <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">{desc}</p>
   </motion.div>
 );
 
@@ -195,7 +195,7 @@ export const Home = () => {
             <p className="text-gray-500 text-lg">Our platform provides a comprehensive suite of tools designed to enhance learning and teaching experiences.</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             <FeatureCard icon={Monitor} title="Live Classes" desc="Real-time interactive sessions with top educators." delay={0.1} />
             <FeatureCard icon={Play} title="Recorded Courses" desc="Learn at your own pace with high-quality video content." delay={0.2} />
             <FeatureCard icon={CheckCircle2} title="Mock Tests" desc="Prepare effectively with full-length timed practice tests." delay={0.3} />
@@ -220,7 +220,7 @@ export const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             {(
               (homeConfig?.classesWeTeachCards?.length > 0)
                 ? homeConfig.classesWeTeachCards
@@ -249,27 +249,27 @@ export const Home = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: (idx + 1) * 0.1, duration: 0.5 }}
-                  className={`group bg-gradient-to-b ${colorClasses.bg} p-7 rounded-3xl border ${colorClasses.border} shadow-md hover:shadow-2xl transition-all flex flex-col justify-between`}
+                  className={`group bg-gradient-to-b ${colorClasses.bg} p-4 sm:p-7 rounded-2xl sm:rounded-3xl border ${colorClasses.border} shadow-md hover:shadow-2xl transition-all flex flex-col justify-between`}
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <div className={`w-14 h-14 bg-gradient-to-br ${colorClasses.iconBg} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform`}>
-                        <CardIcon className="w-7 h-7" />
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                      <div className={`w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br ${colorClasses.iconBg} rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                        <CardIcon className="w-5 h-5 sm:w-7 sm:h-7" />
                       </div>
-                      <span className={`px-3 py-1 rounded-full border text-xs font-bold uppercase tracking-wide ${colorClasses.badge}`}>
+                      <span className={`px-2 py-0.5 sm:px-3 sm:py-1 rounded-full border text-[10px] sm:text-xs font-bold uppercase tracking-wide ${colorClasses.badge}`}>
                         {card.tag || 'Academic'}
                       </span>
                     </div>
 
-                    <h3 className="text-2xl font-black text-gray-900 mb-2">{card.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed mb-6">
+                    <h3 className="text-lg sm:text-2xl font-black text-gray-900 mb-1 sm:mb-2">{card.title}</h3>
+                    <p className="text-gray-500 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-6">
                       {card.description}
                     </p>
 
-                    <ul className="space-y-2.5 mb-2">
+                    <ul className="space-y-1.5 sm:space-y-2.5 mb-2">
                       {(card.highlights || []).map((highlight: string, hIdx: number) => (
-                        <li key={hIdx} className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                          <CheckCircle2 className={`w-4 h-4 ${colorClasses.check} shrink-0`} /> {highlight}
+                        <li key={hIdx} className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-gray-700">
+                          <CheckCircle2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${colorClasses.check} shrink-0`} /> {highlight}
                         </li>
                       ))}
                     </ul>

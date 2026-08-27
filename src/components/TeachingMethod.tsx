@@ -132,7 +132,7 @@ export const TeachingMethod = () => {
         </div>
 
         {/* 4-Step Journey Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative items-stretch">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 relative items-stretch">
           {stepsList.map((item: any, idx: number) => {
             const themeKey = item.themeColor || (idx === 0 ? 'red' : idx === 1 ? 'blue' : idx === 2 ? 'amber' : 'emerald');
             const style = colorStyles[themeKey] || colorStyles.red;
@@ -147,27 +147,27 @@ export const TeachingMethod = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.12 }}
-                className={`relative h-full group bg-white p-7 rounded-3xl border ${style.borderColor} shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between`}
+                className={`relative h-full group bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border ${style.borderColor} shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between`}
               >
                 <div>
                   {/* Top Bar: Icon & Step Badge */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${style.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-7 h-7" />
+                  <div className="flex items-center justify-between mb-4 sm:mb-6">
+                    <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br ${style.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="w-5 h-5 sm:w-7 sm:h-7" />
                     </div>
-                    <span className={`text-2xl font-black ${style.textColor} opacity-40 group-hover:opacity-100 transition-opacity`}>
+                    <span className={`text-lg sm:text-2xl font-black ${style.textColor} opacity-40 group-hover:opacity-100 transition-opacity`}>
                       {stepNum}
                     </span>
                   </div>
 
                   {/* Step Name */}
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-2xl font-black text-gray-900">{item.title}</h3>
-                    <CheckCircle className={`w-5 h-5 ${style.textColor}`} />
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <h3 className="text-lg sm:text-2xl font-black text-gray-900">{item.title}</h3>
+                    <CheckCircle className={`w-4 h-4 sm:w-5 sm:h-5 ${style.textColor}`} />
                   </div>
 
                   {/* Step Description */}
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
                     {item.description}
                   </p>
                 </div>
