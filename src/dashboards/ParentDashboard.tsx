@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import logoImg from '../images/Untitled design.png';
+import { API_BASE_URL } from '../config/api';
 
 interface SidebarItemProps {
   icon: any;
@@ -102,7 +103,7 @@ export const ParentDashboard = () => {
       // 1. Try fetching via parentId or email endpoint
       const targetIdOrEmail = parentId || email;
       if (targetIdOrEmail) {
-        const childrenRes = await fetch(`http://localhost:5000/api/parents/${encodeURIComponent(targetIdOrEmail)}/children`, {
+        const childrenRes = await fetch(`${API_BASE_URL}/api/parents/${encodeURIComponent(targetIdOrEmail)}/children`, {
           headers: token ? { 'Authorization': `Bearer ${token}` } : {}
         });
         if (childrenRes.ok) {
@@ -115,14 +116,14 @@ export const ParentDashboard = () => {
 
       // 2. Fallback: Query parent user by email to get linked studentId string directly
       if (loadedChildren.length === 0 && email) {
-        const parentRes = await fetch(`http://localhost:5000/api/users?email=${encodeURIComponent(email)}&role=parent`);
+        const parentRes = await fetch(`${API_BASE_URL}/api/users?email=${encodeURIComponent(email)}&role=parent`);
         if (parentRes.ok) {
           const parentUsers = await parentRes.json();
           if (Array.isArray(parentUsers) && parentUsers.length > 0) {
             if (parentUsers[0]._id) localStorage.setItem('userId', parentUsers[0]._id);
             if (parentUsers[0].studentId) {
               const code = parentUsers[0].studentId.trim();
-              const studentRes = await fetch(`http://localhost:5000/api/users?studentId=${encodeURIComponent(code)}&role=student`);
+              const studentRes = await fetch(`${API_BASE_URL}/api/users?studentId=${encodeURIComponent(code)}&role=student`);
               if (studentRes.ok) {
                 const studentData = await studentRes.json();
                 if (Array.isArray(studentData) && studentData.length > 0) {
@@ -164,8 +165,8 @@ export const ParentDashboard = () => {
 
     try {
       const [cyclesRes, paymentsRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/fees/student/${encodeURIComponent(childId)}`, { headers }),
-        fetch(`http://localhost:5000/api/fees/payments/student/${encodeURIComponent(childId)}`, { headers })
+        fetch(`${API_BASE_URL}/api/fees/student/${encodeURIComponent(childId)}`, { headers }),
+        fetch(`${API_BASE_URL}/api/fees/payments/student/${encodeURIComponent(childId)}`, { headers })
       ]);
       if (cyclesRes.ok) setFeeCycles(await cyclesRes.json());
       if (paymentsRes.ok) {
@@ -457,7 +458,7 @@ export const ParentDashboard = () => {
     if (userEmail) headers['user-email'] = userEmail;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/fees/payments/${paymentId}/pay-online`, {
+      const res = await fetch(`${API_BASE_URL}/api/fees/payments/${paymentId}/pay-online`, {
         method: 'POST',
         headers
       });
@@ -476,7 +477,7 @@ export const ParentDashboard = () => {
   useEffect(() => {
     fetchStudentAndParentData();
 
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(API_BASE_URL);
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
@@ -493,7 +494,7 @@ export const ParentDashboard = () => {
       scrollToParentBottom();
     });
 
-    fetch(`http://localhost:5000/api/chat/between/${activeParentId}/${adminTeacherId}`)
+    fetch(`${API_BASE_URL}/api/chat/between/${activeParentId}/${adminTeacherId}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setParentChatMessages(data);
@@ -532,7 +533,7 @@ export const ParentDashboard = () => {
     }
 
     try {
-      await fetch('http://localhost:5000/api/chat/send', {
+      await fetch(`${API_BASE_URL}/api/chat/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

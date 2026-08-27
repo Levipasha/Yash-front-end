@@ -16,14 +16,15 @@ import {
   HeartHandshake, 
   Heart, 
   ArrowRight,
-  Sparkles
-} from 'lucide-react';
+  Sparkles } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const defaultIcons = [Users, BookOpen, Trophy, Star, ShieldCheck, TrendingUp, Sparkles, Award];
 
 export const AboutUs = () => {
   const [loading, setLoading] = useState(true);
   const [aboutData, setAboutData] = useState({
+
     // Hero Section
     heroTitle: 'About Yash Educational Institute',
     heroDescription: 'At Yash Educational Institute, we believe every student has the potential to achieve greatness. We are committed to providing quality education, expert guidance, and a nurturing environment that inspires confidence, curiosity, and character.',
@@ -83,7 +84,8 @@ export const AboutUs = () => {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/about')
+    fetch(`${API_BASE_URL}/api/about`)
+
       .then(res => res.json())
       .then(data => {
         if (data) {

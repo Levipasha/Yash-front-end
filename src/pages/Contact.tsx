@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Hash, Camera, Briefcase, Video } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 export const Contact = () => {
   const [searchParams] = useSearchParams();
@@ -22,7 +23,7 @@ export const Contact = () => {
   useEffect(() => {
     const email = localStorage.getItem('userEmail');
     if (email && (!formData.firstName || !formData.phone)) {
-      fetch(`http://localhost:5000/api/users?email=${email}`)
+      fetch(`${API_BASE_URL}/api/users?email=${email}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.length > 0) {
@@ -45,7 +46,8 @@ export const Contact = () => {
     e.preventDefault();
     setStatus('sending');
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const res = await fetch(`${API_BASE_URL}/api/contact`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

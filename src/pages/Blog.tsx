@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Search, Calendar, User, ArrowRight, BookOpen, CheckCircle2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
 
 const BlogPost = ({ image, category, title, excerpt, author, date, delay }: any) => (
   <motion.div
@@ -38,8 +39,8 @@ export const Blog = () => {
   const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
-    const apiBase = (typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : '';
-    fetch(`${apiBase}/api/blogs`)
+    fetch(`${API_BASE_URL}/api/blogs`)
+
       .then(res => res.json())
       .then(data => {
         setBlogs(Array.isArray(data) ? data : []);

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { RequestQueryModal } from '../components/RequestQueryModal';
 import { WatchVideoModal } from '../components/WatchVideoModal';
 import { CourseDetailsModal } from '../components/CourseDetailsModal';
+import { API_BASE_URL } from '../config/api';
 
 const CourseCard = ({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl, delay, onViewDetails }: any) => (
   <motion.div
@@ -57,9 +58,8 @@ export const SubjectCourses = () => {
   const [selectedWatchVideo, setSelectedWatchVideo] = useState<{ title: string; image?: string; videoUrl?: string } | null>(null);
 
   useEffect(() => {
-    const apiBase = (typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : '';
+    fetch(`${API_BASE_URL}/api/courses`)
 
-    fetch(`${apiBase}/api/courses`)
       .then(res => res.json())
       .then(data => {
         const sourceData = Array.isArray(data) ? data : [];

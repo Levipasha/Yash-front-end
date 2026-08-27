@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import logoImg from '../images/Untitled design.png';
 import { ProgressiveFluxLoader } from '../components/ProgressiveFluxLoader';
+import { API_BASE_URL } from '../config/api';
 
 const SidebarItem = ({ icon: Icon, label, active, onClick }: any) => (
   <button
@@ -80,7 +81,7 @@ export const StudentDashboard = () => {
   useEffect(() => {
     const email = localStorage.getItem('userEmail');
     if (email) {
-      fetch(`http://localhost:5000/api/users?email=${encodeURIComponent(email)}&role=student`)
+      fetch(`${API_BASE_URL}/api/users?email=${encodeURIComponent(email)}&role=student`)
         .then(res => res.json())
         .then(data => {
           if (data && data.length > 0) {
@@ -108,7 +109,7 @@ export const StudentDashboard = () => {
     }
 
     // Fetch assignments
-    fetch('http://localhost:5000/api/assignments')
+    fetch(`${API_BASE_URL}/api/assignments`)
       .then(res => res.json())
       .then(data => {
         setAssignments(Array.isArray(data) ? data : []);
@@ -116,7 +117,7 @@ export const StudentDashboard = () => {
       .catch(err => console.error("Error fetching assignments:", err));
 
     // Fetch practice tests
-    fetch('http://localhost:5000/api/tests/student')
+    fetch(`${API_BASE_URL}/api/tests/student`)
       .then(res => res.json())
       .then(data => {
         setPracticeTests(Array.isArray(data) ? data : []);
@@ -126,14 +127,14 @@ export const StudentDashboard = () => {
     // Fetch existing student submissions & test attempts
     const currentStudentId = localStorage.getItem('userId');
     if (currentStudentId) {
-      fetch(`http://localhost:5000/api/assignments/submissions/student/${currentStudentId}`)
+      fetch(`${API_BASE_URL}/api/assignments/submissions/student/${currentStudentId}`)
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) setSubmissions(data);
         })
         .catch(err => console.error("Error fetching submissions:", err));
 
-      fetch(`http://localhost:5000/api/tests/results/student/${currentStudentId}`)
+      fetch(`${API_BASE_URL}/api/tests/results/student/${currentStudentId}`)
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) setTestResults(data);
@@ -142,7 +143,7 @@ export const StudentDashboard = () => {
     }
 
     // Connect Socket
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(API_BASE_URL);
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
@@ -161,7 +162,7 @@ export const StudentDashboard = () => {
     });
 
     // Fetch chat history
-    fetch(`http://localhost:5000/api/chat/between/${activeUserId}/${adminTeacherId}`)
+    fetch(`${API_BASE_URL}/api/chat/between/${activeUserId}/${adminTeacherId}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setChatMessages(data);
@@ -221,7 +222,7 @@ export const StudentDashboard = () => {
     }
 
     try {
-      await fetch('http://localhost:5000/api/chat/send', {
+      await fetch(`${API_BASE_URL}/api/chat/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -282,7 +283,7 @@ export const StudentDashboard = () => {
           try {
             const dataUrl = e.target?.result as string;
             setUploadProgress(prev => Math.min(75, prev + 15));
-            const uploadRes = await fetch('http://localhost:5000/api/upload-pdf', {
+            const uploadRes = await fetch(`${API_BASE_URL}/api/upload-pdf`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'user-email': userEmail },
               body: JSON.stringify({ fileData: dataUrl, fileName: file.name })
@@ -304,7 +305,7 @@ export const StudentDashboard = () => {
 
       setUploadProgress(90);
       const sId = localStorage.getItem('userId') || localStorage.getItem('userEmail') || 'guest_student';
-      const submitRes = await fetch(`http://localhost:5000/api/assignments/${assignmentId}/submit`, {
+      const submitRes = await fetch(`${API_BASE_URL}/api/assignments/${assignmentId}/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'user-email': userEmail },
         body: JSON.stringify({
@@ -346,7 +347,7 @@ export const StudentDashboard = () => {
     if (!confirm('Are you sure you want to remove this photo?')) return;
     try {
       const sId = localStorage.getItem('userId') || localStorage.getItem('userEmail') || 'guest_student';
-      const res = await fetch(`http://localhost:5000/api/assignments/${assignmentId}/delete-photo`, {
+      const res = await fetch(`${API_BASE_URL}/api/assignments/${assignmentId}/delete-photo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ studentId: sId, photoUrl })
@@ -384,7 +385,7 @@ export const StudentDashboard = () => {
     const sId = localStorage.getItem('userId') || localStorage.getItem('userEmail') || 'guest_student';
 
     try {
-      const res = await fetch(`http://localhost:5000/api/tests/${activeTest._id || activeTest.id}/submit`, {
+      const res = await fetch(`${API_BASE_URL}/api/tests/${activeTest._id || activeTest.id}/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -961,7 +962,7 @@ export const StudentDashboard = () => {
                 </div>
                 <button
                   onClick={() => {
-                    fetch('http://localhost:5000/api/tests/student')
+                    fetch(`${API_BASE_URL}/api/tests/student`)
                       .then(res => res.json())
                       .then(data => setPracticeTests(Array.isArray(data) ? data : []));
                   }}

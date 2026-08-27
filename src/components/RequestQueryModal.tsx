@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Send } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 interface RequestQueryModalProps {
   courseTitle: string;
@@ -20,7 +21,7 @@ export const RequestQueryModal = ({ courseTitle, onClose }: RequestQueryModalPro
   useEffect(() => {
     const storedEmail = localStorage.getItem('userEmail');
     if (storedEmail) {
-      fetch(`http://localhost:5000/api/users?email=${encodeURIComponent(storedEmail)}`)
+      fetch(`${API_BASE_URL}/api/users?email=${encodeURIComponent(storedEmail)}`)
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data) && data.length > 0) {
@@ -48,7 +49,7 @@ export const RequestQueryModal = ({ courseTitle, onClose }: RequestQueryModalPro
 
     try {
       // 1. Save contact submission to backend database
-      await fetch('http://localhost:5000/api/contact', {
+      await fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -61,7 +62,8 @@ export const RequestQueryModal = ({ courseTitle, onClose }: RequestQueryModalPro
       });
 
       // 2. Send message directly to Admin chat inbox
-      await fetch('http://localhost:5000/api/chat/send', {
+      await fetch(`${API_BASE_URL}/api/chat/send`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { ShieldCheck, TrendingUp, Award, CalendarCheck, Activity, FileText } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 // Default images as fallback if gallery is empty
+
 const defaultStudyImages = [
   'https://images.unsplash.com/photo-1513258496099-48168024aec0?w=500&q=80',
   'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&q=80',
@@ -17,7 +19,8 @@ export const EducationalJourney = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-learning')
+    fetch(`${API_BASE_URL}/api/home-learning`)
+
       .then(res => res.json())
       .then(data => {
         if (data) {

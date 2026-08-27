@@ -7,6 +7,8 @@ import { auth } from '../firebase';
 
 import logoImg from '../images/Untitled design.png';
 
+import { API_BASE_URL } from '../config/api';
+
 export const Register = () => {
   const [role, setRole] = useState<'student' | 'parent'>('student');
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +53,7 @@ export const Register = () => {
 
       // Save user to backend database
       try {
-        await fetch('http://localhost:5000/api/users', {
+        await fetch(`${API_BASE_URL}/api/users`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -69,7 +71,8 @@ export const Register = () => {
         });
 
         // Call backend to get JWT
-        const authRes = await fetch('http://localhost:5000/api/auth/login', {
+        const authRes = await fetch(`${API_BASE_URL}/api/auth/login`, {
+
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

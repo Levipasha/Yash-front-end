@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { BookOpen, Edit3, Award, TrendingUp, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const defaultSteps = [
+
   {
     step: '01',
     title: 'Learn',
@@ -79,7 +81,8 @@ export const TeachingMethod = () => {
   const [config, setConfig] = useState<any>(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-learning')
+    fetch(`${API_BASE_URL}/api/home-learning`)
+
       .then((res) => res.json())
       .then((data) => {
         if (data) setConfig(data);

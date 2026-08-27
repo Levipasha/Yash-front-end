@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { RequestQueryModal } from '../components/RequestQueryModal';
 import { WatchVideoModal } from '../components/WatchVideoModal';
 import { CourseDetailsModal } from '../components/CourseDetailsModal';
+import { API_BASE_URL } from '../config/api';
 
 // Reusing a similar CourseCard component for consistency
 const CourseCard = ({ image, title, instructor, rating, location, duration, students, price, subject, videoUrl, delay, onViewDetails }: any) => (
@@ -63,9 +64,8 @@ export const Courses = () => {
   const [selectedWatchVideo, setSelectedWatchVideo] = useState<{ title: string; image?: string; videoUrl?: string } | null>(null);
 
   useEffect(() => {
-    const apiBase = (typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : '';
     // Fetch courses directly from MongoDB backend database
-    fetch(`${apiBase}/api/courses`)
+    fetch(`${API_BASE_URL}/api/courses`)
       .then(res => res.json())
       .then(data => {
         setCourses(Array.isArray(data) ? data : []);
@@ -78,7 +78,8 @@ export const Courses = () => {
       });
 
     // Fetch subjects dynamically from backend
-    fetch(`${apiBase}/api/subjects`)
+    fetch(`${API_BASE_URL}/api/subjects`)
+
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {

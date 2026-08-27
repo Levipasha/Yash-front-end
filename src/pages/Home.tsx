@@ -8,6 +8,7 @@ import { CourseDetailsModal } from '../components/CourseDetailsModal';
 import { EducationalJourney } from '../components/EducationalJourney';
 import { TeachingMethod } from '../components/TeachingMethod';
 import heroCtaImg from '../images/hero-cta.jpg';
+import { API_BASE_URL } from '../config/api';
 
 const FeatureCard = ({ icon: Icon, title, desc, delay }: any) => (
   <motion.div
@@ -38,15 +39,15 @@ export const Home = () => {
   });
 
   useEffect(() => {
-    const apiBase = (typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : '';
-    fetch(`${apiBase}/api/home-learning`)
+    fetch(`${API_BASE_URL}/api/home-learning`)
       .then(res => res.json())
       .then(data => {
         if (data) setHomeConfig(data);
       })
       .catch(err => console.warn('Using default home config:', err));
 
-    fetch(`${apiBase}/api/about`)
+    fetch(`${API_BASE_URL}/api/about`)
+
       .then(res => res.json())
       .then(data => {
         if (data) {
