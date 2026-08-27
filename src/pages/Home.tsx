@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Users, BookOpen, Monitor, Award, CheckCircle2, Sparkles, Brain, Target, Zap } from 'lucide-react';
+import { Play, ArrowRight, Users, BookOpen, Monitor, Award, CheckCircle2, Sparkles, Brain, Target, Zap, Compass, Video, GraduationCap, Trophy, Star } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { RequestQueryModal } from '../components/RequestQueryModal';
@@ -70,92 +70,138 @@ export const Home = () => {
     <div className="min-h-screen bg-gray-50">
       
       {/* Hero Section */}
-      <section className="relative pt-8 md:pt-10 pb-8 md:pb-10 overflow-hidden bg-white">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-red-50 via-white to-white opacity-70"></div>
-        
+      <section className="relative pt-6 md:pt-10 pb-12 overflow-hidden bg-[#FFFDF8]">
+        {/* Background Decorative Gradient Wave */}
+        <div className="absolute bottom-0 right-0 w-[55%] h-[85%] bg-gradient-to-tl from-red-600 via-red-500 to-transparent rounded-tl-[140px] opacity-90 pointer-events-none"></div>
+
         <div className="w-full px-6 sm:px-10 lg:px-16 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             
-            {/* Hero Image / Floating Cards */}
+            {/* Left Content Column */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative w-full h-[400px] sm:h-[450px] lg:h-[480px] flex items-center justify-center order-2 lg:order-1"
+              className="flex flex-col justify-start pt-2 order-1"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-red-100 to-transparent rounded-full blur-3xl opacity-50"></div>
-              <img 
-                src={heroCtaImg} 
-                alt="Students learning" 
-                className="relative z-10 rounded-3xl shadow-2xl object-cover h-full w-full"
-              />
+              {/* Heading */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+                {homeConfig?.heroTitleLine1 || 'Learn Without'}<br />
+                <span className="text-[var(--color-primary)] relative inline-block">
+                  {homeConfig?.heroTitleLine2 || 'Limits.'}
+                  <span className="absolute -bottom-2 left-0 w-16 h-1.5 bg-[var(--color-primary)] rounded-full"></span>
+                </span>
+              </h1>
+
+              {/* Subtitle / Paragraphs */}
+              <div className="text-sm sm:text-base text-gray-600 mb-8 max-w-xl leading-relaxed space-y-3 font-normal">
+                {homeConfig?.heroDescription1 && (
+                  <p>{homeConfig.heroDescription1}</p>
+                )}
+                {homeConfig?.heroDescription2 && (
+                  <p>{homeConfig.heroDescription2}</p>
+                )}
+                {!homeConfig?.heroDescription1 && !homeConfig?.heroDescription2 && (
+                  <>
+                    <p>Give your child the right guidance, personal attention, and strong academic foundation they need to succeed.</p>
+                    <p>Our tuition program provides a supportive and engaging learning environment for every student. We focus on helping students understand concepts clearly rather than simply memorizing answers.</p>
+                  </>
+                )}
+              </div>
               
-              {/* Floating Stat 1 */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-10 -left-6 sm:-left-10 glass p-4 rounded-2xl shadow-xl flex items-center gap-4 z-20"
-              >
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-gray-900">50K+</div>
-                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">Students</div>
-                </div>
-              </motion.div>
-
-              {/* Floating Stat 2 */}
-              <motion.div 
-                animate={{ y: [0, 15, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-20 -right-5 glass p-4 rounded-2xl shadow-xl flex items-center gap-4 z-20"
-              >
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-gray-900">500+</div>
-                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">Courses</div>
-                </div>
-              </motion.div>
-
-              {/* Floating Stat 3 */}
-              <motion.div 
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute top-1/2 -left-6 sm:-left-12 glass px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-20"
-              >
-                <CheckCircle2 className="w-6 h-6 text-red-500" />
-                <span className="font-bold text-gray-900">Live Classes Daily</span>
-              </motion.div>
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-4 mb-8">
+                <Link 
+                  to={homeConfig?.heroButtonLink || '/courses'} 
+                  className="px-7 py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold rounded-2xl transition-all shadow-lg shadow-red-200 hover:-translate-y-0.5 flex items-center gap-2"
+                >
+                  {homeConfig?.heroButtonText || 'Start Learning'} <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
 
             </motion.div>
 
-            {/* Hero Text */}
+            {/* Right Hero Image with Floating Cards */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="flex flex-col justify-start pt-2 order-1 lg:order-2"
+              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] flex items-center justify-center order-2"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15] mb-6">
-                Learn Without <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-red-400">Limits.</span>
-              </h1>
-              <div className="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl leading-relaxed space-y-2.5 font-normal">
-                <p>Give your child the right guidance, personal attention, and strong academic foundation they need to succeed.</p>
-                <p>Our tuition program provides a supportive and engaging learning environment for every student. We focus on helping students understand concepts clearly rather than simply memorizing answers.</p>
-                <p>Our experienced teachers use simple and effective teaching methods to make learning easier and more interesting. Students receive individual attention based on their learning needs, strengths, and areas for improvement.</p>
-                <p className="font-bold text-gray-900 pt-0.5">Together, we help every student discover their potential, achieve their goals, and build a brighter future.</p>
+              {/* Flight Path SVG Line */}
+              <svg className="absolute -top-10 -left-10 w-full h-full pointer-events-none opacity-40" viewBox="0 0 400 400" fill="none">
+                <path d="M 50 350 Q 150 50 350 100" stroke="#CBD5E1" strokeWidth="2.5" strokeDasharray="8 8" />
+              </svg>
+
+              {/* Main Image Container */}
+              <div className="relative w-full h-full rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
+                <img 
+                  src={homeConfig?.heroImage || heroCtaImg} 
+                  alt="Students learning in classroom" 
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
-              
-              <div className="flex flex-wrap gap-4">
-                <Link to="/courses" className="px-7 py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-red-200 hover:-translate-y-0.5 flex items-center gap-2">
-                  Start Learning <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
+
+              {/* Floating Card 1: 50K+ Students */}
+              <motion.div 
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-8 -left-4 sm:-left-8 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3.5 z-20 min-w-[170px]"
+              >
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                  <Users className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <div>
+                  <div className="text-lg sm:text-xl font-extrabold text-slate-900 leading-none">
+                    {homeConfig?.heroStat1Value || '50K+'}
+                  </div>
+                  <div className="text-xs font-semibold text-gray-500 mt-1">
+                    {homeConfig?.heroStat1Label || 'Students'}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Floating Card 2: Live Classes Daily */}
+              <motion.div 
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-12 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3.5 z-20 min-w-[180px]"
+              >
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center shrink-0">
+                  <Video className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <div>
+                  <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-none">
+                    {homeConfig?.heroStat2Value || 'Live Classes'}
+                  </div>
+                  <div className="text-xs font-semibold text-gray-500 mt-1">
+                    {homeConfig?.heroStat2Label || 'Daily'}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Floating Card 3: 500+ Courses */}
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-8 -left-4 sm:-left-8 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3.5 z-20 min-w-[170px]"
+              >
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+                  <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <div>
+                  <div className="text-lg sm:text-xl font-extrabold text-slate-900 leading-none">
+                    {homeConfig?.heroStat3Value || '500+'}
+                  </div>
+                  <div className="text-xs font-semibold text-gray-500 mt-1">
+                    {homeConfig?.heroStat3Label || 'Courses'}
+                  </div>
+                </div>
+              </motion.div>
+
             </motion.div>
           </div>
+
         </div>
       </section>
 
@@ -180,6 +226,16 @@ export const Home = () => {
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
               {aboutData.heroDescription}
             </p>
+
+            <div className="pt-3">
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-sm sm:text-base rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              >
+                <span>Read More About Us</span>
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </Link>
+            </div>
 
 
           </motion.div>

@@ -10,6 +10,7 @@ import { Courses } from './pages/Courses';
 import { SubjectCourses } from './pages/SubjectCourses';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { TermsAndConditions } from './pages/TermsAndConditions';
 
 // Dashboards
 import { StudentDashboard } from './dashboards/StudentDashboard';
@@ -51,6 +52,8 @@ function App() {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/course-details" element={<CourseDetails />} />
+                <Route path="/terms" element={<TermsAndConditions />} />
+                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                 
                 {/* Auth */}
                 <Route path="/login" element={<Login />} />

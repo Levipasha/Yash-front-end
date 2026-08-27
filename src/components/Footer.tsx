@@ -66,7 +66,7 @@ const defaultSections = [
     title: "Resources",
     links: [
       { name: "Help & Support", href: "/contact" },
-      { name: "Terms & Conditions", href: "#" },
+      { name: "Terms & Conditions", href: "/terms-and-conditions" },
     ],
   },
 ];
@@ -79,7 +79,7 @@ const defaultSocialLinks = [
 ];
 
 const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "#" },
+  { name: "Terms and Conditions", href: "/terms-and-conditions" },
 ];
 
 export const Footer7 = ({
