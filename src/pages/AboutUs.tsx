@@ -191,6 +191,9 @@ export const AboutUs = () => {
                 src={aboutData.heroImage} 
                 alt="About Us Hero" 
                 className="w-full h-auto object-cover rounded-3xl shadow-xl border border-gray-100 max-h-[450px]"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80';
+                }}
               />
             </div>
           </motion.div>
@@ -240,6 +243,9 @@ export const AboutUs = () => {
                 src={aboutData.storyImage} 
                 alt="Story Building" 
                 className="w-full h-80 sm:h-96 object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&auto=format&fit=crop&q=80';
+                }}
               />
               
               {/* Floating Badge Overlay */}
