@@ -73,7 +73,7 @@ const defaultSections = [
 
 const defaultSocialLinks = [
   { icon: <FaInstagram className="size-5" />, href: "https://www.instagram.com/yasheduacademy?igsi=cjA5eTM2dTEycnlk", label: "Instagram" },
-  { icon: <FaFacebook className="size-5" />, href: "#", label: "Facebook" },
+  { icon: <FaFacebook className="size-5" />, href: "https://www.facebook.com/yasheduacademy?mibextid=rS40aB7S9Ucbxw6v", label: "Facebook" },
   { icon: <FaYoutube className="size-5" />, href: "https://www.youtube.com/@yasheduacademy/videos", label: "YouTube" },
   { icon: <FaWhatsapp className="size-5" />, href: "https://wa.me/918686456117", label: "WhatsApp" },
 ];
