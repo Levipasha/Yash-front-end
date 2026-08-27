@@ -24,9 +24,12 @@ const Placeholder = ({ title }: { title: string }) => (
   </div>
 );
 
+import { ScrollToTop } from './components/ScrollToTop';
+
 function App() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
+      <ScrollToTop />
       {/* Hide Navbar/Footer on Dashboard routes if we wanted, but for this demo they are fine or we can conditionally hide them */}
       <Routes>
         {/* Dashboards (These usually have their own layout, so we render them outside main layout for full screen) */}

@@ -175,14 +175,7 @@ export const Home = () => {
               {aboutData.heroDescription}
             </p>
 
-            <div className="pt-2">
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#0f172a] hover:bg-gray-800 text-white font-bold text-sm rounded-full transition-all shadow-md hover:shadow-xl active:scale-95 group"
-              >
-                Know More About Us <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
+
           </motion.div>
         </div>
       </section>

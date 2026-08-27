@@ -132,7 +132,7 @@ export const TeachingMethod = () => {
         </div>
 
         {/* 4-Step Journey Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 relative items-stretch">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 relative items-stretch">
           {stepsList.map((item: any, idx: number) => {
             const themeKey = item.themeColor || (idx === 0 ? 'red' : idx === 1 ? 'blue' : idx === 2 ? 'amber' : 'emerald');
             const style = colorStyles[themeKey] || colorStyles.red;
@@ -172,10 +172,10 @@ export const TeachingMethod = () => {
                   </p>
                 </div>
 
-                {/* Flow indicator arrow centered vertically between boxes */}
+                {/* Flow indicator arrow completely outside card box with 0% line overlap */}
                 {idx < stepsList.length - 1 && (
-                  <div className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border-2 border-gray-200 items-center justify-center text-gray-600 shadow-md group-hover:border-[var(--color-primary)] group-hover:text-[var(--color-primary)] transition-all">
-                    <ArrowRight className="w-4.5 h-4.5" />
+                  <div className="hidden lg:flex absolute left-[calc(100%+1rem)] -translate-x-1/2 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white border border-gray-200 items-center justify-center text-gray-400 shadow-2xs group-hover:border-red-500 group-hover:text-red-500 group-hover:scale-110 transition-all pointer-events-none">
+                    <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-red-500" />
                   </div>
                 )}
 

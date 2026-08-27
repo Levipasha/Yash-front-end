@@ -205,34 +205,23 @@ export const AboutUs = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-6 space-y-6"
+            className="lg:col-span-6 space-y-6 text-left flex flex-col items-start"
           >
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">{aboutData.storyTitle}</h2>
-              <div className="w-12 h-1 bg-red-500 rounded-full mt-2"></div>
+            <div className="text-left">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 text-left">{aboutData.storyTitle}</h2>
+              <div className="w-12 h-1 bg-red-500 rounded-full mt-2 ml-0"></div>
             </div>
 
             {aboutData.storyP1 && (
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed text-left">
                 {aboutData.storyP1}
               </p>
             )}
 
             {aboutData.storyP2 && (
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed text-left">
                 {aboutData.storyP2}
               </p>
-            )}
-
-            {aboutData.storyCtaText && (
-              <div className="pt-2">
-                <Link 
-                  to={aboutData.storyCtaLink || '/courses'} 
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold text-xs sm:text-sm rounded-full transition-all"
-                >
-                  {aboutData.storyCtaText} <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
             )}
           </motion.div>
 
@@ -328,7 +317,7 @@ export const AboutUs = () => {
               <div className="w-12 h-1 bg-red-500 rounded-full mx-auto mt-2"></div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-6 sm:gap-8 text-center">
+            <div className="flex flex-wrap justify-center items-stretch gap-6 sm:gap-8 text-center max-w-6xl mx-auto">
               {aboutData.whyChooseUs.map((item, idx) => {
                 const IconComponent = defaultIcons[idx % defaultIcons.length];
                 const colorAccents = [
@@ -342,12 +331,12 @@ export const AboutUs = () => {
                 const colorClass = colorAccents[idx % colorAccents.length];
 
                 return (
-                  <div key={idx} className="space-y-3 p-4 rounded-2xl hover:bg-white transition-all border border-transparent hover:border-gray-100 hover:shadow-sm">
+                  <div key={idx} className="w-full sm:w-[calc(50%-1.5rem)] md:w-[calc(33.333%-1.5rem)] max-w-xs space-y-3 p-5 rounded-2xl bg-white border border-gray-100/80 shadow-2xs hover:shadow-md transition-all">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto border ${colorClass}`}>
                       <IconComponent className="w-6 h-6" />
                     </div>
-                    <h4 className="text-sm font-extrabold text-gray-900">{item.title}</h4>
-                    <p className="text-[11px] text-gray-500 leading-relaxed">{item.description}</p>
+                    <h4 className="text-sm sm:text-base font-extrabold text-gray-900">{item.title}</h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">{item.description}</p>
                   </div>
                 );
               })}
@@ -407,7 +396,7 @@ export const AboutUs = () => {
             <div className="w-12 h-1 bg-red-500 rounded-full mx-auto mt-2"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 text-center">
+          <div className="flex flex-wrap justify-center items-stretch gap-6 sm:gap-8 text-center max-w-6xl mx-auto">
             {aboutData.coreValues.map((val, idx) => {
               const valueIcons = [Award, HeartHandshake, Users, TrendingUp, Heart, Sparkles];
               const ValueIcon = valueIcons[idx % valueIcons.length];
@@ -421,12 +410,12 @@ export const AboutUs = () => {
               const colorClass = valueColors[idx % valueColors.length];
 
               return (
-                <div key={idx} className="space-y-3 p-4 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
+                <div key={idx} className="w-full sm:w-[calc(50%-1.5rem)] md:w-[calc(33.333%-1.5rem)] max-w-xs space-y-3 p-5 rounded-2xl bg-white border border-gray-100/80 shadow-2xs hover:shadow-md transition-all">
                   <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto ${colorClass}`}>
                     <ValueIcon className="w-7 h-7" />
                   </div>
-                  <h4 className="text-sm font-extrabold text-gray-900">{val.title}</h4>
-                  <p className="text-[11px] text-gray-500 leading-relaxed">{val.description}</p>
+                  <h4 className="text-sm sm:text-base font-extrabold text-gray-900">{val.title}</h4>
+                  <p className="text-xs text-gray-500 leading-relaxed">{val.description}</p>
                 </div>
               );
             })}
