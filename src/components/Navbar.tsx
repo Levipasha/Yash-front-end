@@ -63,18 +63,18 @@ export const Navbar = () => {
 
   return (
     <header className="bg-[#FFFDF5] border-b border-[#F3EAD8] sticky top-0 z-50">
-      <div className="w-full px-6 sm:px-10 lg:px-16">
-        <div className="flex justify-between items-center h-20 md:h-24">
+      <div className="w-full px-4 sm:px-10 lg:px-16">
+        <div className="flex justify-between items-center h-16 sm:h-20 md:h-24">
           
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center gap-3 py-1 group">
-              <img src={logoImg} alt="YashEdu Logo" className="h-12 sm:h-16 md:h-18 w-auto object-contain transition-all group-hover:scale-105" />
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 py-1 group">
+              <img src={logoImg} alt="YashEdu Logo" className="h-10 sm:h-16 md:h-18 w-auto object-contain transition-all group-hover:scale-105" />
               <div className="flex flex-col">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#D3010A] leading-none">
+                <span className="text-base sm:text-2xl font-black tracking-tight text-[#D3010A] leading-none whitespace-nowrap">
                   YashEdu <span className="text-[#01274C]">Academy</span>
                 </span>
-                <span className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest mt-0.5">
+                <span className="text-[8px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest mt-0.5 whitespace-nowrap">
                   Educational Institute
                 </span>
               </div>

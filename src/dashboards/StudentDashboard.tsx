@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { io, Socket } from 'socket.io-client';
 import {
@@ -40,6 +40,7 @@ const StatCard = ({ icon: Icon, label, value, trend, trendUp }: any) => (
 );
 
 export const StudentDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Overview');
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -143,11 +144,20 @@ export const StudentDashboard = () => {
     }
 
     // Connect Socket
-    const newSocket = io(API_BASE_URL);
+    const newSocket = io(API_BASE_URL, {
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 3,
+      timeout: 5000
+    });
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
       newSocket.emit('joinRoom', activeUserId);
+    });
+
+    newSocket.on('connect_error', (err) => {
+      console.warn('Socket connection unavailable on backend serverless environment:', err.message);
+      newSocket.disconnect();
     });
 
     newSocket.on('receiveMessage', (msg) => {
@@ -495,6 +505,19 @@ export const StudentDashboard = () => {
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => {
+                if (activeTab !== 'Overview') {
+                  setActiveTab('Overview');
+                } else {
+                  navigate('/');
+                }
+              }}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors inline-flex items-center justify-center cursor-pointer"
+              title={activeTab !== 'Overview' ? "Back to Overview" : "Go to Home Page"}
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-600" />
             </button>
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">{activeTab}</h1>
           </div>

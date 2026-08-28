@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { io, Socket } from 'socket.io-client';
 import { 
   BookOpen, Calendar, FileText, CheckCircle, 
   CreditCard, MessageSquare, Bell, LogOut,
   TrendingUp, Download, ChevronDown, ArrowLeft,
-  User, GraduationCap, Phone, Mail, RefreshCw, Check, AlertCircle, Send
+  User, GraduationCap, Phone, Mail, RefreshCw, Check, AlertCircle, Send,
+  Menu, X
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import logoImg from '../images/Untitled design.png';
@@ -55,13 +56,18 @@ interface StudentDetails {
 }
 
 export const ParentDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isChildDropdownOpen, setIsChildDropdownOpen] = useState(false);
   const [parentEmail, setParentEmail] = useState('');
   const [parentName, setParentName] = useState('');
   const [children, setChildren] = useState<StudentDetails[]>([]);
   const [selectedChildIndex, setSelectedChildIndex] = useState(0);
   const [isLoadingStudent, setIsLoadingStudent] = useState(true);
   const [studentError, setStudentError] = useState('');
+
+
   const [feeCycles, setFeeCycles] = useState<any[]>([]);
   const [payments, setPayments] = useState<any[]>([]);
 
@@ -161,15 +167,15 @@ export const ParentDashboard = () => {
     
     const headers: Record<string, string> = {};
     if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
-    if (userEmail) headers['user-email'] = userEmail;
+    const queryEmail = userEmail ? `?email=${encodeURIComponent(userEmail)}` : '';
 
     try {
       const [cyclesRes, paymentsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/fees/student/${encodeURIComponent(childId)}`, { headers }),
-        fetch(`${API_BASE_URL}/api/fees/payments/student/${encodeURIComponent(childId)}`, { headers })
+        fetch(`${API_BASE_URL}/api/fees/student/${encodeURIComponent(childId)}${queryEmail}`, { headers }).catch(() => null),
+        fetch(`${API_BASE_URL}/api/fees/payments/student/${encodeURIComponent(childId)}${queryEmail}`, { headers }).catch(() => null)
       ]);
-      if (cyclesRes.ok) setFeeCycles(await cyclesRes.json());
-      if (paymentsRes.ok) {
+      if (cyclesRes && cyclesRes.ok) setFeeCycles(await cyclesRes.json());
+      if (paymentsRes && paymentsRes.ok) {
         const payData = await paymentsRes.json();
         setPayments(Array.isArray(payData) ? payData : []);
       }
@@ -477,11 +483,20 @@ export const ParentDashboard = () => {
   useEffect(() => {
     fetchStudentAndParentData();
 
-    const newSocket = io(API_BASE_URL);
+    const newSocket = io(API_BASE_URL, {
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 3,
+      timeout: 5000
+    });
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
       newSocket.emit('joinRoom', activeParentId);
+    });
+
+    newSocket.on('connect_error', (err) => {
+      console.warn('Socket connection unavailable on backend serverless environment:', err.message);
+      newSocket.disconnect();
     });
 
     newSocket.on('receiveMessage', (msg) => {
@@ -552,13 +567,54 @@ export const ParentDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden flex">
+          <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)}></div>
+          <motion.aside
+            initial={{ x: -300 }}
+            animate={{ x: 0 }}
+            className="w-72 bg-[#FAF6F0] flex flex-col h-screen relative z-50 overflow-y-auto shadow-2xl pb-4"
+          >
+            <div className="p-6 flex items-center justify-between border-b border-[#EBE3D5]">
+              <button onClick={() => { setActiveTab('Overview'); navigate('/'); }} className="cursor-pointer">
+                <img src={logoImg} alt="YashEdu Logo" className="h-12 w-auto object-contain" />
+              </button>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-stone-400 hover:text-stone-600 rounded-lg hover:bg-amber-100/50 transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="p-4">
+              <nav className="flex flex-col gap-2">
+                <SidebarItem icon={TrendingUp} label="Child Overview" active={activeTab === 'Overview'} onClick={() => { setActiveTab('Overview'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={GraduationCap} label="Child Profile" active={activeTab === 'Child Profile'} onClick={() => { setActiveTab('Child Profile'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={Calendar} label="Attendance" active={activeTab === 'Attendance'} onClick={() => { setActiveTab('Attendance'); fetchStudentAndParentData(); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={FileText} label="Academics" active={activeTab === 'Academics'} onClick={() => { setActiveTab('Academics'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={CreditCard} label="Fee Payments" active={activeTab === 'Fees'} onClick={() => { setActiveTab('Fees'); if (studentDetails) fetchFinancialData(studentDetails._id || studentDetails.studentId || ''); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={MessageSquare} label="Teacher Messages" active={activeTab === 'Messages'} onClick={() => { setActiveTab('Messages'); setIsMobileMenuOpen(false); }} />
+              </nav>
+            </div>
+
+            <div className="mt-auto p-4 border-t border-[#EBE3D5] bg-[#F3ECE0]/40">
+              <nav className="flex flex-col gap-2">
+                <Link to="/login" onClick={() => localStorage.clear()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-100/50 transition-all font-medium mt-2">
+                  <LogOut className="w-5 h-5" />
+                  <span>Logout</span>
+                </Link>
+              </nav>
+            </div>
+          </motion.aside>
+        </div>
+      )}
+
       {/* Sidebar */}
       <aside className="w-64 bg-[#FAF6F0] border-r border-[#EBE3D5] hidden lg:flex flex-col h-screen sticky top-0 overflow-y-auto pb-4">
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
-            <Link to="/dashboard/parent" onClick={() => setActiveTab('Overview')}>
+            <button onClick={() => { setActiveTab('Overview'); navigate('/'); }} className="cursor-pointer">
               <img src={logoImg} alt="YashEdu Logo" className="h-12 w-auto object-contain" />
-            </Link>
+            </button>
             <span className="text-xs text-stone-500 font-normal border border-stone-300/60 bg-[#F3ECE0] px-1.5 py-0.5 rounded">Parent</span>
           </div>
           
@@ -584,16 +640,34 @@ export const ParentDashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto">
-        <header className="bg-white border-b border-gray-100 sticky top-0 z-10 px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/dashboard/parent" onClick={() => setActiveTab('Overview')} className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Dashboard">
+        <header className="bg-white border-b border-gray-100 sticky top-0 z-10 px-4 md:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-4">
+            <button
+              className="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={() => setIsMobileMenuOpen(true)}
+              title="Toggle Menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => {
+                if (activeTab !== 'Overview') {
+                  setActiveTab('Overview');
+                } else {
+                  navigate('/');
+                }
+              }}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors inline-flex items-center justify-center cursor-pointer"
+              title={activeTab !== 'Overview' ? "Back to Overview" : "Go to Home Page"}
+            >
               <ArrowLeft className="w-5 h-5 text-gray-600" />
-            </Link>
-            <h1 className="text-2xl font-bold text-gray-900">{activeTab}</h1>
+            </button>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900">{activeTab}</h1>
             
             {/* Child Selector */}
-            <div className="relative group ml-4">
+            <div className="relative group ml-2 md:ml-4">
               <div 
+                onClick={() => children.length > 1 && setIsChildDropdownOpen(!isChildDropdownOpen)}
                 className="hidden md:flex items-center gap-2 bg-red-50 border border-red-100 rounded-xl p-1.5 cursor-pointer hover:bg-red-100 transition-colors"
                 title="Switch Child"
               >
@@ -608,17 +682,20 @@ export const ParentDashboard = () => {
                     <p className="text-[10px] text-[var(--color-primary)] font-mono font-medium">{linkedStudentId}</p>
                   )}
                 </div>
-                <ChevronDown className="w-4 h-4 text-[var(--color-primary)] mr-1" />
+                {children.length > 1 && (
+                  <ChevronDown className={`w-4 h-4 text-[var(--color-primary)] mr-1 transition-transform ${isChildDropdownOpen ? 'rotate-180' : ''}`} />
+                )}
               </div>
               
               {/* Dropdown for multiple children */}
               {children.length > 1 && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-100 shadow-xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                <div className={`absolute top-full left-0 mt-2 w-64 bg-white border border-gray-100 shadow-xl rounded-xl transition-all z-50 ${isChildDropdownOpen ? 'block' : 'hidden group-hover:block'}`}>
                   {children.map((child, idx) => (
                     <div 
                       key={idx}
                       onClick={() => {
                         setSelectedChildIndex(idx);
+                        setIsChildDropdownOpen(false);
                         fetchFinancialData(child._id || '', localStorage.getItem('token') || '');
                       }}
                       className={`p-3 cursor-pointer hover:bg-red-50 flex items-center gap-3 ${idx === selectedChildIndex ? 'bg-red-50' : ''}`}

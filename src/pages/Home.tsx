@@ -70,12 +70,12 @@ export const Home = () => {
     <div className="min-h-screen bg-gray-50">
       
       {/* Hero Section */}
-      <section className="relative pt-6 md:pt-10 pb-12 overflow-hidden bg-[#FFFDF8]">
+      <section className="relative pt-4 sm:pt-6 md:pt-10 pb-8 sm:pb-12 overflow-hidden bg-[#FFFDF8]">
         {/* Background Decorative Gradient Wave */}
-        <div className="absolute bottom-0 right-0 w-[55%] h-[85%] bg-gradient-to-tl from-red-600 via-red-500 to-transparent rounded-tl-[140px] opacity-90 pointer-events-none"></div>
+        <div className="hidden lg:block absolute bottom-0 right-0 w-[55%] h-[85%] bg-gradient-to-tl from-red-600 via-red-500 to-transparent rounded-tl-[140px] opacity-90 pointer-events-none"></div>
 
-        <div className="w-full px-6 sm:px-10 lg:px-16 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="w-full px-4 sm:px-10 lg:px-16 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-8 items-center">
             
             {/* Left Content Column */}
             <motion.div
@@ -85,7 +85,7 @@ export const Home = () => {
               className="flex flex-col justify-start pt-2 order-1"
             >
               {/* Heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15] mb-4 sm:mb-6">
                 {homeConfig?.heroTitleLine1 || 'Learn Without'}<br />
                 <span className="text-[var(--color-primary)] relative inline-block">
                   {homeConfig?.heroTitleLine2 || 'Limits.'}
@@ -94,7 +94,7 @@ export const Home = () => {
               </h1>
 
               {/* Subtitle / Paragraphs */}
-              <div className="text-sm sm:text-base text-gray-600 mb-8 max-w-xl leading-relaxed space-y-3 font-normal">
+              <div className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 max-w-xl leading-relaxed space-y-3 font-normal">
                 {homeConfig?.heroDescription1 && (
                   <p>{homeConfig.heroDescription1}</p>
                 )}
@@ -110,7 +110,7 @@ export const Home = () => {
               </div>
               
               {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-4 mb-8">
+              <div className="flex flex-wrap items-center gap-4 mb-4 sm:mb-8">
                 <Link 
                   to={homeConfig?.heroButtonLink || '/courses'} 
                   className="px-7 py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold rounded-2xl transition-all shadow-lg shadow-red-200 hover:-translate-y-0.5 flex items-center gap-2"
@@ -126,15 +126,15 @@ export const Home = () => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] flex items-center justify-center order-2"
+              className="relative w-full h-[320px] sm:h-[480px] lg:h-[520px] flex items-center justify-center order-2 mt-2 lg:mt-0"
             >
               {/* Flight Path SVG Line */}
-              <svg className="absolute -top-10 -left-10 w-full h-full pointer-events-none opacity-40" viewBox="0 0 400 400" fill="none">
+              <svg className="absolute -top-10 -left-10 w-full h-full pointer-events-none opacity-40 hidden sm:block" viewBox="0 0 400 400" fill="none">
                 <path d="M 50 350 Q 150 50 350 100" stroke="#CBD5E1" strokeWidth="2.5" strokeDasharray="8 8" />
               </svg>
 
               {/* Main Image Container */}
-              <div className="relative w-full h-full rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
+              <div className="relative w-full h-full rounded-[24px] sm:rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
                 <img 
                   src={homeConfig?.heroImage || heroCtaImg} 
                   alt="Students learning in classroom" 
@@ -146,16 +146,16 @@ export const Home = () => {
               <motion.div 
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-8 -left-4 sm:-left-8 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3.5 z-20 min-w-[170px]"
+                className="absolute top-4 left-2 sm:top-8 sm:-left-8 bg-white/95 backdrop-blur-md p-2.5 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5 sm:gap-3.5 z-20 min-w-[130px] sm:min-w-[170px]"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
-                  <Users className="w-5 h-5 sm:w-6 sm:h-6" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-100 text-emerald-600 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
+                  <Users className="w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <div className="text-lg sm:text-xl font-extrabold text-slate-900 leading-none">
+                  <div className="text-base sm:text-xl font-extrabold text-slate-900 leading-none">
                     {homeConfig?.heroStat1Value || '50K+'}
                   </div>
-                  <div className="text-xs font-semibold text-gray-500 mt-1">
+                  <div className="text-[10px] sm:text-xs font-semibold text-gray-500 mt-0.5 sm:mt-1">
                     {homeConfig?.heroStat1Label || 'Students'}
                   </div>
                 </div>
@@ -165,7 +165,7 @@ export const Home = () => {
               <motion.div 
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-12 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3.5 z-20 min-w-[180px]"
+                className="hidden sm:flex absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-12 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 items-center gap-3.5 z-20 min-w-[180px]"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center shrink-0">
                   <Video className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -184,16 +184,16 @@ export const Home = () => {
               <motion.div 
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-8 -left-4 sm:-left-8 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3.5 z-20 min-w-[170px]"
+                className="absolute bottom-4 right-2 sm:bottom-8 sm:-left-8 bg-white/95 backdrop-blur-md p-2.5 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5 sm:gap-3.5 z-20 min-w-[130px] sm:min-w-[170px]"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
-                  <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 text-blue-600 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
+                  <BookOpen className="w-4 h-4 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <div className="text-lg sm:text-xl font-extrabold text-slate-900 leading-none">
+                  <div className="text-base sm:text-xl font-extrabold text-slate-900 leading-none">
                     {homeConfig?.heroStat3Value || '500+'}
                   </div>
-                  <div className="text-xs font-semibold text-gray-500 mt-1">
+                  <div className="text-[10px] sm:text-xs font-semibold text-gray-500 mt-0.5 sm:mt-1">
                     {homeConfig?.heroStat3Label || 'Courses'}
                   </div>
                 </div>
