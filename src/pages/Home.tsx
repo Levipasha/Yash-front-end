@@ -142,62 +142,7 @@ export const Home = () => {
                 />
               </div>
 
-              {/* Floating Card 1: 50K+ Students */}
-              <motion.div 
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-4 left-2 sm:top-8 sm:-left-8 bg-white/95 backdrop-blur-md p-2.5 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5 sm:gap-3.5 z-20 min-w-[130px] sm:min-w-[170px]"
-              >
-                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-100 text-emerald-600 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                  <Users className="w-4 h-4 sm:w-6 sm:h-6" />
-                </div>
-                <div>
-                  <div className="text-base sm:text-xl font-extrabold text-slate-900 leading-none">
-                    {homeConfig?.heroStat1Value || '50K+'}
-                  </div>
-                  <div className="text-[10px] sm:text-xs font-semibold text-gray-500 mt-0.5 sm:mt-1">
-                    {homeConfig?.heroStat1Label || 'Students'}
-                  </div>
-                </div>
-              </motion.div>
 
-              {/* Floating Card 2: Live Classes Daily */}
-              <motion.div 
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="hidden sm:flex absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-12 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-xl border border-gray-100 items-center gap-3.5 z-20 min-w-[180px]"
-              >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center shrink-0">
-                  <Video className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <div>
-                  <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-none">
-                    {homeConfig?.heroStat2Value || 'Live Classes'}
-                  </div>
-                  <div className="text-xs font-semibold text-gray-500 mt-1">
-                    {homeConfig?.heroStat2Label || 'Daily'}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Floating Card 3: 500+ Courses */}
-              <motion.div 
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-4 right-2 sm:bottom-8 sm:-left-8 bg-white/95 backdrop-blur-md p-2.5 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5 sm:gap-3.5 z-20 min-w-[130px] sm:min-w-[170px]"
-              >
-                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 text-blue-600 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                  <BookOpen className="w-4 h-4 sm:w-6 sm:h-6" />
-                </div>
-                <div>
-                  <div className="text-base sm:text-xl font-extrabold text-slate-900 leading-none">
-                    {homeConfig?.heroStat3Value || '500+'}
-                  </div>
-                  <div className="text-[10px] sm:text-xs font-semibold text-gray-500 mt-0.5 sm:mt-1">
-                    {homeConfig?.heroStat3Label || 'Courses'}
-                  </div>
-                </div>
-              </motion.div>
 
             </motion.div>
           </div>
@@ -206,39 +151,60 @@ export const Home = () => {
       </section>
 
       {/* About Us Home Section */}
-      <section className="py-6 md:py-8 bg-white border-t border-gray-100">
-        <div className="w-full px-6 sm:px-10 lg:px-16 max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center space-y-4"
-          >
+      <section className="pt-10 md:pt-14 pb-0 bg-white border-t border-gray-100 relative overflow-hidden">
+        <div className="w-full pl-0 pr-6 sm:pr-10 lg:pr-16 max-w-[1536px] ml-0">
+          <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-end">
+            
+            {/* Left Column: Seamless Video (Larger size & flush to bottom-left screen edge) */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-6 flex justify-start items-end self-end -mb-1 pl-0 ml-0"
+            >
+              <video 
+                src="/videos/untitled_design.mp4" 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                style={{ mixBlendMode: 'multiply' }}
+                className="w-full max-w-lg lg:max-w-2xl xl:max-w-3xl h-auto max-h-[580px] lg:max-h-[720px] xl:max-h-[820px] object-contain block align-bottom origin-bottom-left mix-blend-multiply pl-0 ml-0 scale-105 sm:scale-110 lg:scale-115"
+              />
+            </motion.div>
 
-            <div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
-                About <span className="text-[var(--color-primary)]">Yash Educational</span> Institute
-              </h2>
-              <div className="w-16 h-1 bg-[var(--color-primary)] rounded-full mx-auto mt-3"></div>
-            </div>
+            {/* Right Column: Heading & Description */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="lg:col-span-6 space-y-6 text-left pb-10 md:pb-16 pl-2 sm:pl-0"
+            >
+              <div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
+                  About <span className="text-[var(--color-primary)]">Yash Educational</span> Institute
+                </h2>
+                <div className="w-20 h-1 bg-[var(--color-primary)] rounded-full mt-3"></div>
+              </div>
 
-            <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
-              {aboutData.heroDescription}
-            </p>
+              <p className="text-gray-600 text-base sm:text-lg leading-relaxed font-normal">
+                {aboutData.heroDescription}
+              </p>
 
-            <div className="pt-3">
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-sm sm:text-base rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
-              >
-                <span>Read More About Us</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-              </Link>
-            </div>
+              <div className="pt-2">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-sm sm:text-base rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                >
+                  <span>Read More About Us</span>
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                </Link>
+              </div>
+            </motion.div>
 
-
-          </motion.div>
+          </div>
         </div>
       </section>
 

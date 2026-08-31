@@ -154,50 +154,26 @@ export const AboutUs = () => {
     <div className="bg-white min-h-screen font-sans text-gray-800">
       
       {/* 1. HERO SECTION */}
-      <section className="w-full px-6 sm:px-10 lg:px-20 py-12 lg:py-16">
-        <div className="grid lg:grid-cols-12 gap-10 items-center">
-          {/* Left Column: Heading & Description */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-6 space-y-6"
-          >
-            <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
-                {renderHeroTitle(aboutData.heroTitle)}
-              </h1>
-              {/* Red Accent Underline */}
-              <div className="w-16 h-1 bg-red-500 rounded-full mt-3"></div>
-            </div>
+      <section className="w-full px-6 sm:px-10 lg:px-20 py-12 lg:py-16 max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6 max-w-3xl"
+        >
+          <div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+              {renderHeroTitle(aboutData.heroTitle)}
+            </h1>
+            {/* Red Accent Underline */}
+            <div className="w-16 h-1 bg-red-500 rounded-full mt-3"></div>
+          </div>
 
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl">
-              {aboutData.heroDescription}
-            </p>
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            {aboutData.heroDescription}
+          </p>
 
-          </motion.div>
-
-          {/* Right Column: Hero Image */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-6 relative flex justify-center"
-          >
-            <div className="relative w-full max-w-lg">
-              <div className="absolute inset-0 bg-blue-50/80 rounded-full blur-2xl scale-105 -z-10"></div>
-              
-              <img 
-                src={aboutData.heroImage} 
-                alt="About Us Hero" 
-                className="w-full h-auto object-cover rounded-3xl shadow-xl border border-gray-100 max-h-[450px]"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80';
-                }}
-              />
-            </div>
-          </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 2. OUR STORY SECTION */}

@@ -184,8 +184,8 @@ export const TeachingMethod = () => {
 
                 {/* Flow indicator chevron arrow between cards (desktop) */}
                 {idx < stepsList.length - 1 && (
-                  <div className="hidden lg:flex absolute left-[calc(100%+0.75rem)] -translate-x-1/2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white border border-slate-200/80 shadow-xs items-center justify-center text-slate-400 group-hover:border-slate-300 transition-all pointer-events-none">
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  <div className="hidden lg:flex absolute left-[calc(100%+0.75rem)] -translate-x-1/2 top-1/2 -translate-y-1/2 z-20 items-center justify-center pointer-events-none">
+                    <ChevronRight className="w-7 h-7 text-[var(--color-primary)] stroke-[3] drop-shadow-sm" />
                   </div>
                 )}
 
@@ -202,50 +202,6 @@ export const TeachingMethod = () => {
             );
           })}
         </div>
-
-        {/* Parent Trust Callout Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 bg-gradient-to-r from-purple-50/80 via-pink-50/40 to-indigo-50/60 p-6 sm:p-7 rounded-3xl border border-purple-100/80 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-6"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-13 h-13 rounded-full bg-purple-200/70 text-purple-700 flex items-center justify-center shrink-0">
-              <Users className="w-6 h-6 text-purple-700" />
-            </div>
-            <div>
-              <h4 className="text-base sm:text-lg font-bold text-slate-900 mb-0.5">{assuranceTitle}</h4>
-              <p className="text-xs sm:text-sm text-slate-600">{assuranceDesc}</p>
-            </div>
-          </div>
-
-          {/* Right Side: Step Chain */}
-          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 bg-white/90 backdrop-blur-xs px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-purple-100/80 shadow-2xs flex-wrap justify-center">
-            {stepsList.map((stepItem: any, sIdx: number) => {
-              const themeKey = stepItem.themeColor || (sIdx === 0 ? 'red' : sIdx === 1 ? 'blue' : sIdx === 2 ? 'amber' : 'emerald');
-              const style = colorStyles[themeKey] || colorStyles.red;
-              const StepIcon = stepItem.icon || style.icon || BookOpen;
-
-              return (
-                <div key={sIdx} className="flex items-center gap-2 sm:gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <div className={`w-7 h-7 rounded-full ${style.iconBg} flex items-center justify-center shrink-0`}>
-                      <StepIcon className="w-3.5 h-3.5" />
-                    </div>
-                    <span className={`text-xs font-bold ${style.titleColor}`}>
-                      {stepItem.title}
-                    </span>
-                  </div>
-                  {sIdx < stepsList.length - 1 && (
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

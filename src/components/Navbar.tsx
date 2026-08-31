@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink as RouterNavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlideTabs } from './SlideTabs';
+import { OriginButton } from './OriginButton';
 import logoImg from '../images/Untitled design.png';
 
 const NavLink = ({ to, label, children }: { to: string; label: string; children?: React.ReactNode }) => {
@@ -53,7 +54,29 @@ const NavLink = ({ to, label, children }: { to: string; label: string; children?
 };
 
 export const Navbar = () => {
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  if (location.pathname === '/login') return null;
   
   const userRole = localStorage.getItem('userRole');
   const userEmail = localStorage.getItem('userEmail');
@@ -62,7 +85,9 @@ export const Navbar = () => {
   const dashboardLink = isLoggedIn ? `/dashboard/${userRole || 'student'}` : '/login';
 
   return (
-    <header className="bg-[#FFFDF5] border-b border-[#F3EAD8] sticky top-0 z-50">
+    <header className={`bg-[#FFFDF5] border-b border-[#F3EAD8] sticky top-0 z-50 transition-transform duration-300 ease-in-out ${
+      isVisible || isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       <div className="w-full px-4 sm:px-10 lg:px-16">
         <div className="flex justify-between items-center h-16 sm:h-20 md:h-24">
           
@@ -92,12 +117,22 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center justify-end gap-4">
             <div className="flex items-center gap-4">
               {isLoggedIn ? (
-                <Link to={dashboardLink} className="px-6 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-base font-bold rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap">
-                  Dashboard
+                <Link to={dashboardLink}>
+                  <OriginButton 
+                    className="bg-white !text-black border-2 border-black rounded-full h-11 px-7 font-bold shadow-sm"
+                    fillClassName="bg-[#D3010A]"
+                  >
+                    Dashboard
+                  </OriginButton>
                 </Link>
               ) : (
-                <Link to="/login" className="px-6 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-base font-bold rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap">
-                  Login
+                <Link to="/login">
+                  <OriginButton 
+                    className="bg-white !text-black border-2 border-black rounded-full h-11 px-7 font-bold shadow-sm"
+                    fillClassName="bg-[#D3010A]"
+                  >
+                    Login
+                  </OriginButton>
                 </Link>
               )}
             </div>
@@ -209,17 +244,27 @@ export const Navbar = () => {
                     <Link
                       to={dashboardLink}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full block text-center py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-bold text-sm rounded-lg shadow-sm transition-colors"
+                      className="w-full block"
                     >
-                      Dashboard
+                      <OriginButton 
+                        className="w-full bg-white !text-black border-2 border-black rounded-xl h-10 font-bold text-sm shadow-sm"
+                        fillClassName="bg-[#D3010A]"
+                      >
+                        Dashboard
+                      </OriginButton>
                     </Link>
                   ) : (
                     <Link
                       to="/login"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full block text-center py-2.5 text-[var(--color-primary)] font-bold text-sm border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white rounded-lg transition-colors"
+                      className="w-full block"
                     >
-                      Login
+                      <OriginButton 
+                        className="w-full bg-white !text-black border-2 border-black rounded-xl h-10 font-bold text-sm shadow-sm"
+                        fillClassName="bg-[#D3010A]"
+                      >
+                        Login
+                      </OriginButton>
                     </Link>
                   )}
                 </div>

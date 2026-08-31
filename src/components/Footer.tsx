@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import logoImg from "../images/Untitled design.png";
 
 // Inline SVG components to eliminate Vite dev server subpath resolution issues
@@ -160,6 +161,12 @@ export const Footer7 = ({
 };
 
 export const Footer = (props: Footer7Props) => {
+  const location = useLocation();
+
+  if (location.pathname === '/login') {
+    return null;
+  }
+
   return (
     <Footer7
       logo={{
