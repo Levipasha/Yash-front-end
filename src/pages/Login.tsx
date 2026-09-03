@@ -125,7 +125,7 @@ export const Login = () => {
           <div>
             {/* Header / Mobile Switch Button */}
             <div className="flex items-center justify-between mb-4">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-red-600 to-rose-500 text-white font-extrabold text-xs sm:text-sm rounded-full shadow-md shadow-red-200 uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-[#D3010A] to-[#B50108] text-white font-extrabold text-xs sm:text-sm rounded-full shadow-md shadow-red-200 uppercase tracking-wider">
                 <GraduationCap className="w-4 h-4 text-white" />
                 <span>Student Portal</span>
               </div>
@@ -309,7 +309,7 @@ export const Login = () => {
             borderBottomRightRadius: isStudent ? '0px' : '110px',
           }}
           transition={{ type: "spring", stiffness: 220, damping: 28 }}
-          className="hidden md:flex absolute top-0 bottom-0 left-0 w-1/2 h-full z-30 bg-gradient-to-br from-red-600 via-rose-600 to-[#01274C] p-10 flex-col justify-between text-white shadow-2xl overflow-hidden pointer-events-auto"
+          className="hidden md:flex absolute top-0 bottom-0 left-0 w-1/2 h-full z-30 bg-gradient-to-br from-[#D3010A] via-[#B50108] to-[#01274C] p-10 flex-col justify-between text-white shadow-2xl overflow-hidden pointer-events-auto"
         >
           {/* Background Decorative Blur Accents */}
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />

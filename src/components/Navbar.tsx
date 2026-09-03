@@ -85,68 +85,70 @@ export const Navbar = () => {
   const dashboardLink = isLoggedIn ? `/dashboard/${userRole || 'student'}` : '/login';
 
   return (
-    <header className={`bg-[#FFFDF5] border-b border-[#F3EAD8] sticky top-0 z-50 transition-transform duration-300 ease-in-out ${
-      isVisible || isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
-    }`}>
-      <div className="w-full px-4 sm:px-10 lg:px-16">
-        <div className="flex justify-between items-center h-16 sm:h-20 md:h-24">
-          
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center gap-2 sm:gap-3 py-1 group">
-              <img src={logoImg} alt="YashEdu Logo" className="h-10 sm:h-16 md:h-18 w-auto object-contain transition-all group-hover:scale-105" />
-              <div className="flex flex-col">
-                <span className="text-base sm:text-2xl font-black tracking-tight text-[#D3010A] leading-none whitespace-nowrap">
-                  YashEdu <span className="text-[#01274C]">Academy</span>
-                </span>
-                <span className="text-[8px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest mt-0.5 whitespace-nowrap">
-                  Educational Institute
-                </span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          {!isStudent && (
-            <nav className="hidden md:flex items-center justify-center flex-1 px-4">
-              <SlideTabs />
-            </nav>
-          )}
-
-          {/* Action Buttons */}
-          <div className="hidden md:flex items-center justify-end gap-4">
-            <div className="flex items-center gap-4">
-              {isLoggedIn ? (
-                <Link to={dashboardLink}>
-                  <OriginButton 
-                    className="bg-white !text-black border-2 border-black rounded-full h-11 px-7 font-bold shadow-sm"
-                    fillClassName="bg-[#D3010A]"
-                  >
-                    Dashboard
-                  </OriginButton>
-                </Link>
-              ) : (
-                <Link to="/login">
-                  <OriginButton 
-                    className="bg-white !text-black border-2 border-black rounded-full h-11 px-7 font-bold shadow-sm"
-                    fillClassName="bg-[#D3010A]"
-                  >
-                    Login
-                  </OriginButton>
-                </Link>
-              )}
+    <header className="sticky top-0 z-50 w-full">
+      <div className={`bg-[#FFFDF5] border-b border-[#F3EAD8] transition-transform duration-300 ease-in-out ${
+        isVisible || isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+      }`}>
+        <div className="w-full px-4 sm:px-10 lg:px-16">
+          <div className="flex justify-between items-center h-16 sm:h-20 md:h-24">
+            
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Link to="/" className="flex items-center gap-2 sm:gap-3 py-1 group">
+                <img src={logoImg} alt="YashEdu Logo" className="h-10 sm:h-16 md:h-18 w-auto object-contain transition-all group-hover:scale-105" />
+                <div className="flex flex-col">
+                  <span className="text-base sm:text-2xl font-black tracking-tight text-[#D3010A] leading-none whitespace-nowrap">
+                    YashEdu <span className="text-[#01274C]">Academy</span>
+                  </span>
+                  <span className="text-[8px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                    Educational Institute
+                  </span>
+                </div>
+              </Link>
             </div>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-600 hover:text-gray-900 focus:outline-none p-2"
-              aria-label="Toggle Mobile Menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Desktop Navigation */}
+            {!isStudent && (
+              <nav className="hidden md:flex items-center justify-center flex-1 px-4">
+                <SlideTabs />
+              </nav>
+            )}
+
+            {/* Action Buttons */}
+            <div className="hidden md:flex items-center justify-end gap-4">
+              <div className="flex items-center gap-4">
+                {isLoggedIn ? (
+                  <Link to={dashboardLink}>
+                    <OriginButton 
+                      className="bg-white !text-black border-2 border-black rounded-full h-11 px-7 font-bold shadow-sm"
+                      fillClassName="bg-[#D3010A]"
+                    >
+                      Dashboard
+                    </OriginButton>
+                  </Link>
+                ) : (
+                  <Link to="/login">
+                    <OriginButton 
+                      className="bg-white !text-black border-2 border-black rounded-full h-11 px-7 font-bold shadow-sm"
+                      fillClassName="bg-[#D3010A]"
+                    >
+                      Login
+                    </OriginButton>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="text-gray-600 hover:text-gray-900 focus:outline-none p-2"
+                aria-label="Toggle Mobile Menu"
+              >
+                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -170,7 +172,7 @@ export const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="fixed top-0 right-0 bottom-0 w-[70%] max-w-[260px] bg-[#FFFDF5] z-50 shadow-2xl flex flex-col md:hidden border-l border-[#F3EAD8] rounded-l-2xl overflow-hidden"
+              className="fixed top-0 right-0 bottom-0 w-[80%] sm:w-[320px] max-w-[320px] bg-[#FFFDF5] z-50 shadow-2xl flex flex-col md:hidden border-l border-[#F3EAD8] rounded-l-2xl overflow-hidden"
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#F3EAD8] bg-[#FAF6EE]">
@@ -197,49 +199,45 @@ export const Navbar = () => {
 
               {/* Drawer Content */}
               <div className="flex-1 px-4 py-4 flex flex-col overflow-y-auto">
-                <div className="flex flex-col">
-                  {!isStudent && (
-                    <>
-                      <Link
-                        to="/"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        Home
-                      </Link>
-                      <Link
-                        to="/courses"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        Courses
-                      </Link>
-                      <Link
-                        to="/blog"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        Blogs
-                      </Link>
-                      <Link
-                        to="/about"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        About Us
-                      </Link>
-                      <Link
-                        to="/contact"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-gray-700 font-semibold text-sm py-2.5 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        Contact
-                      </Link>
-                    </>
-                  )}
+                <div className="flex flex-col gap-1">
+                  <Link
+                    to="/"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-700 font-semibold text-base py-3 px-2 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors flex items-center justify-between"
+                  >
+                    <span>Home</span>
+                  </Link>
+                  <Link
+                    to="/courses"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-700 font-semibold text-base py-3 px-2 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors flex items-center justify-between"
+                  >
+                    <span>Courses</span>
+                  </Link>
+                  <Link
+                    to="/blog"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-700 font-semibold text-base py-3 px-2 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors flex items-center justify-between"
+                  >
+                    <span>Blogs</span>
+                  </Link>
+                  <Link
+                    to="/about"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-700 font-semibold text-base py-3 px-2 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors flex items-center justify-between"
+                  >
+                    <span>About Us</span>
+                  </Link>
+                  <Link
+                    to="/contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-700 font-semibold text-base py-3 px-2 border-b border-[#F3EAD8]/80 hover:text-[var(--color-primary)] transition-colors flex items-center justify-between"
+                  >
+                    <span>Contact</span>
+                  </Link>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-[#F3EAD8]">
+                <div className="mt-auto pt-4 border-t border-[#F3EAD8]">
                   {isLoggedIn ? (
                     <Link
                       to={dashboardLink}
@@ -247,7 +245,7 @@ export const Navbar = () => {
                       className="w-full block"
                     >
                       <OriginButton 
-                        className="w-full bg-white !text-black border-2 border-black rounded-xl h-10 font-bold text-sm shadow-sm"
+                        className="w-full bg-white !text-black border-2 border-black rounded-xl h-11 font-bold text-sm shadow-sm"
                         fillClassName="bg-[#D3010A]"
                       >
                         Dashboard
@@ -260,7 +258,7 @@ export const Navbar = () => {
                       className="w-full block"
                     >
                       <OriginButton 
-                        className="w-full bg-white !text-black border-2 border-black rounded-xl h-10 font-bold text-sm shadow-sm"
+                        className="w-full bg-white !text-black border-2 border-black rounded-xl h-11 font-bold text-sm shadow-sm"
                         fillClassName="bg-[#D3010A]"
                       >
                         Login

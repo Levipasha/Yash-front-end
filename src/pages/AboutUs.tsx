@@ -305,12 +305,12 @@ export const AboutUs = () => {
               {aboutData.whyChooseUs.map((item, idx) => {
                 const IconComponent = defaultIcons[idx % defaultIcons.length];
                 const colorAccents = [
-                  'bg-blue-50 text-blue-600 border-blue-100',
-                  'bg-red-50 text-red-500 border-red-100',
-                  'bg-indigo-50 text-indigo-600 border-indigo-100',
-                  'bg-rose-50 text-rose-500 border-rose-100',
-                  'bg-sky-50 text-sky-600 border-sky-100',
-                  'bg-orange-50 text-orange-500 border-orange-100'
+                  'bg-[#FAF6EE] text-[#D3010A] border-[#F3EAD8]',
+                  'bg-[#FAF6EE] text-[#01274C] border-[#F3EAD8]',
+                  'bg-[#FAF6EE] text-[#D3010A] border-[#F3EAD8]',
+                  'bg-[#FAF6EE] text-[#01274C] border-[#F3EAD8]',
+                  'bg-[#FAF6EE] text-[#D3010A] border-[#F3EAD8]',
+                  'bg-[#FAF6EE] text-[#01274C] border-[#F3EAD8]'
                 ];
                 const colorClass = colorAccents[idx % colorAccents.length];
 
@@ -385,11 +385,11 @@ export const AboutUs = () => {
               const valueIcons = [Award, HeartHandshake, Users, TrendingUp, Heart, Sparkles];
               const ValueIcon = valueIcons[idx % valueIcons.length];
               const valueColors = [
-                'bg-red-50 text-red-500',
-                'bg-blue-50 text-blue-600',
-                'bg-amber-50 text-amber-600',
-                'bg-emerald-50 text-emerald-600',
-                'bg-purple-50 text-purple-600'
+                'bg-[#FAF6EE] text-[#D3010A] border border-[#F3EAD8]',
+                'bg-[#FAF6EE] text-[#01274C] border border-[#F3EAD8]',
+                'bg-[#FAF6EE] text-[#D3010A] border border-[#F3EAD8]',
+                'bg-[#FAF6EE] text-[#01274C] border border-[#F3EAD8]',
+                'bg-[#FAF6EE] text-[#D3010A] border border-[#F3EAD8]'
               ];
               const colorClass = valueColors[idx % valueColors.length];
 

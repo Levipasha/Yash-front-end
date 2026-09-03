@@ -97,7 +97,7 @@ export const Footer7 = ({
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
   return (
-    <footer className="bg-slate-950 text-slate-200 py-8 md:py-10 border-t border-slate-800">
+    <footer className="bg-[#0F172A] text-slate-200 py-8 md:py-10 border-t border-[#0F172A]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex w-full flex-col justify-between gap-6 lg:flex-row lg:items-start text-left">
           {/* Left info column */}
