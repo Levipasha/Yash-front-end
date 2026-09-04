@@ -77,7 +77,7 @@ export const Blog = () => {
 
       {/* Categories */}
       <section className="py-4 sm:py-8 border-b border-gray-100 bg-white sticky top-0 z-20 backdrop-blur-md bg-white/90">
-        <div className="w-full px-4 sm:px-10 lg:px-16 flex items-center sm:justify-center gap-2 sm:gap-3 overflow-x-auto py-1 sm:flex-wrap no-scrollbar">
+        <div className="w-full px-4 sm:px-10 lg:px-16 flex items-center sm:justify-center gap-2 sm:gap-3 overflow-x-auto py-1 sm:flex-wrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {categories.map((cat, i) => (
             <button 
               key={i} 

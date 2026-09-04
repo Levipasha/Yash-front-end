@@ -118,10 +118,13 @@ export const Courses = () => {
           </div>
 
           {/* Middle Subject Filter Bar */}
-          <div className="flex items-center gap-1.5 overflow-x-auto py-1 px-1 bg-white border border-gray-200 rounded-2xl shadow-xs max-w-full">
+          <div className="relative flex items-center gap-1.5 overflow-x-auto py-2 px-1.5 bg-white border border-gray-200 rounded-2xl shadow-xs max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] select-none">
             <button
-              onClick={() => setSelectedSubject('All')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+              onClick={(e) => {
+                setSelectedSubject('All');
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              }}
+              className={`relative px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 shrink-0 cursor-pointer ${
                 selectedSubject === 'All'
                   ? 'bg-[var(--color-primary)] text-white shadow-sm'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -133,6 +136,14 @@ export const Courses = () => {
               }`}>
                 {getSubjectCount('All')}
               </span>
+
+              {selectedSubject === 'All' && (
+                <motion.div
+                  layoutId="activeSubjectLine"
+                  className="absolute -bottom-1.5 left-2 right-2 h-1 bg-[var(--color-primary)] rounded-full shadow-sm"
+                  transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                />
+              )}
             </button>
             {subjectsList.map((subjectName, idx) => {
               const count = getSubjectCount(subjectName);
@@ -140,8 +151,11 @@ export const Courses = () => {
               return (
                 <button
                   key={idx}
-                  onClick={() => setSelectedSubject(subjectName)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                  onClick={(e) => {
+                    setSelectedSubject(subjectName);
+                    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                  }}
+                  className={`relative px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 shrink-0 cursor-pointer ${
                     isSelected
                       ? 'bg-[var(--color-primary)] text-white shadow-sm'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -153,6 +167,14 @@ export const Courses = () => {
                   }`}>
                     {count}
                   </span>
+
+                  {isSelected && (
+                    <motion.div
+                      layoutId="activeSubjectLine"
+                      className="absolute -bottom-1.5 left-2 right-2 h-1 bg-[var(--color-primary)] rounded-full shadow-sm"
+                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                    />
+                  )}
                 </button>
               );
             })}

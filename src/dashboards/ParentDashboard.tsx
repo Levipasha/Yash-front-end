@@ -598,7 +598,7 @@ export const ParentDashboard = () => {
 
             <div className="mt-auto p-4 border-t border-[#EBE3D5] bg-[#F3ECE0]/40">
               <nav className="flex flex-col gap-2">
-                <Link to="/login" onClick={() => localStorage.clear()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-100/50 transition-all font-medium mt-2">
+                <Link to="/" onClick={() => localStorage.clear()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-100/50 transition-all font-medium mt-2">
                   <LogOut className="w-5 h-5" />
                   <span>Logout</span>
                 </Link>
@@ -630,7 +630,7 @@ export const ParentDashboard = () => {
         
         <div className="mt-auto p-6 border-t border-[#EBE3D5]">
           <nav className="flex flex-col gap-2">
-            <Link to="/login" onClick={() => localStorage.clear()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-100/50 transition-all font-medium mt-2">
+            <Link to="/" onClick={() => localStorage.clear()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-100/50 transition-all font-medium mt-2">
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
             </Link>

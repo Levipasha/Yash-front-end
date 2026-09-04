@@ -113,13 +113,13 @@ export const Login = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-4xl bg-white rounded-[36px] shadow-2xl border border-gray-100 overflow-hidden min-h-[580px] relative flex flex-col md:flex-row"
+        className="w-full max-w-4xl bg-white rounded-[36px] shadow-2xl border border-gray-100 overflow-hidden min-h-0 md:min-h-[580px] relative flex flex-col md:flex-row"
       >
 
         {/* --- STUDENT FORM CONTAINER (LEFT SIDE) --- */}
         <div 
-          className={`w-full md:w-1/2 p-8 sm:p-10 md:p-12 flex flex-col justify-between bg-white transition-opacity duration-300 ${
-            isStudent ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto z-0'
+          className={`w-full md:w-1/2 p-6 sm:p-10 md:p-12 flex-col justify-between bg-white transition-opacity duration-300 ${
+            isStudent ? 'flex opacity-100 pointer-events-auto z-10' : 'hidden md:flex opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto z-0'
           }`}
         >
           <div>
@@ -209,8 +209,8 @@ export const Login = () => {
 
         {/* --- PARENT FORM CONTAINER (RIGHT SIDE) --- */}
         <div 
-          className={`w-full md:w-1/2 p-8 sm:p-10 md:p-12 flex flex-col justify-between bg-white transition-opacity duration-300 ${
-            !isStudent ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto z-0'
+          className={`w-full md:w-1/2 p-6 sm:p-10 md:p-12 flex-col justify-between bg-white transition-opacity duration-300 ${
+            !isStudent ? 'flex opacity-100 pointer-events-auto z-10' : 'hidden md:flex opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto z-0'
           }`}
         >
           <div>

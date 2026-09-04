@@ -96,11 +96,12 @@ export const Navbar = () => {
             <div className="flex-shrink-0 flex items-center">
               <Link to="/" className="flex items-center gap-2 sm:gap-3 py-1 group">
                 <img src={logoImg} alt="YashEdu Logo" className="h-10 sm:h-16 md:h-18 w-auto object-contain transition-all group-hover:scale-105" />
-                <div className="flex flex-col">
-                  <span className="text-base sm:text-2xl font-black tracking-tight text-[#D3010A] leading-none whitespace-nowrap">
-                    YashEdu <span className="text-[#01274C]">Academy</span>
+                <div className="flex flex-col font-garet">
+                  <span className="text-base sm:text-2xl font-normal tracking-tight leading-none whitespace-nowrap">
+                    <span className="text-[#D3010A]">Yash</span>
+                    <span className="text-[#01274C]">Edu</span> <span className="text-[#01274C]">Academy</span>
                   </span>
-                  <span className="text-[8px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                  <span className="text-[8px] sm:text-xs font-normal text-gray-500 uppercase tracking-widest mt-0.5 whitespace-nowrap">
                     Educational Institute
                   </span>
                 </div>
@@ -178,11 +179,12 @@ export const Navbar = () => {
               <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#F3EAD8] bg-[#FAF6EE]">
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
                   <img src={logoImg} alt="YashEdu Logo" className="h-8 w-auto object-contain" />
-                  <div className="flex flex-col">
-                    <span className="text-base font-black tracking-tight text-[#D3010A] leading-none">
-                      YashEdu <span className="text-[#01274C]">Academy</span>
+                  <div className="flex flex-col font-garet">
+                    <span className="text-base font-normal tracking-tight leading-none">
+                      <span className="text-[#D3010A]">Yash</span>
+                      <span className="text-[#01274C]">Edu</span> <span className="text-[#01274C]">Academy</span>
                     </span>
-                    <span className="text-[8px] font-semibold text-gray-500 uppercase tracking-widest mt-0.5">
+                    <span className="text-[8px] font-normal text-gray-500 uppercase tracking-widest mt-0.5">
                       Educational Institute
                     </span>
                   </div>

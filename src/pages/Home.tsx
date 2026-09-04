@@ -166,7 +166,6 @@ export const Home = () => {
               <video 
                 src="/videos/untitled_design.mp4" 
                 autoPlay 
-                loop 
                 muted 
                 playsInline 
                 style={{ mixBlendMode: 'multiply' }}

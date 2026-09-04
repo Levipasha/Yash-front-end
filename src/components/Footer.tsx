@@ -1,8 +1,9 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { Phone, Mail, Clock, ArrowRight, GraduationCap } from "lucide-react";
 import logoImg from "../images/Untitled design.png";
 
-// Inline SVG components to eliminate Vite dev server subpath resolution issues
+// Inline SVG components
 const FaInstagram = ({ className = "size-5" }: { className?: string }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -55,19 +56,33 @@ export interface Footer7Props {
 
 const defaultSections = [
   {
-    title: "Company",
+    title: "Quick Navigation",
     links: [
-      { name: "About Us", href: "/about" },
-      { name: "Courses", href: "/courses" },
-      { name: "Blogs", href: "/blog" },
-      { name: "Contact", href: "/contact" },
+      { name: "Home", href: "/" },
+      { name: "About YashEdu", href: "/about" },
+      { name: "All Courses & Batches", href: "/courses" },
+      { name: "Educational Blog", href: "/blog" },
+      { name: "Contact & Admissions", href: "/contact" },
     ],
   },
   {
-    title: "Resources",
+    title: "Academic Programs",
     links: [
-      { name: "Help & Support", href: "/contact" },
-      { name: "Terms & Conditions", href: "/terms-and-conditions" },
+      { name: "Primary School (Classes 1-5)", href: "/courses" },
+      { name: "Middle School (Classes 6-8)", href: "/courses" },
+      { name: "Board Prep (Classes 9-10)", href: "/courses" },
+      { name: "Senior & Competitive (11-12)", href: "/courses" },
+      { name: "JEE / NEET Foundation Tracks", href: "/courses" },
+    ],
+  },
+  {
+    title: "Student & Parent Portals",
+    links: [
+      { name: "Student Portal Sign In", href: "/login" },
+      { name: "Parent Portal Sign In", href: "/login" },
+      { name: "Live Grade & Attendance Reports", href: "/login" },
+      { name: "Online Mock Test Series", href: "/login" },
+      { name: "Assignment & Homework Submissions", href: "/login" },
     ],
   },
 ];
@@ -81,6 +96,8 @@ const defaultSocialLinks = [
 
 const defaultLegalLinks = [
   { name: "Terms and Conditions", href: "/terms-and-conditions" },
+  { name: "Privacy Policy", href: "/terms-and-conditions" },
+  { name: "Academic Disclaimer", href: "/terms-and-conditions" },
 ];
 
 export const Footer7 = ({
@@ -88,66 +105,142 @@ export const Footer7 = ({
     url: "/",
     src: logoImg,
     alt: "YashEdu Logo",
-    title: "YashEdu",
+    title: "YashEdu Academy",
   },
   sections = defaultSections,
-  description = "Learn without limits. Interactive live classes, recorded courses, AI learning, and comprehensive progress tracking.",
+  description = "Learn without limits. YashEdu Academy provides conceptual learning, interactive live classes, certified courses, online mock tests, and real-time parent progress tracking for academic excellence.",
   socialLinks = defaultSocialLinks,
-  copyright = `© ${new Date().getFullYear()} YashEdu Platform. All rights reserved.`,
+  copyright = `© ${new Date().getFullYear()} YashEdu Academy. Empowering Minds, Shaping Futures. All rights reserved.`,
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
   return (
-    <footer className="bg-[#0F172A] text-slate-200 py-8 md:py-10 border-t border-[#0F172A]">
+    <footer className="bg-[#0B1329] text-slate-300 pt-12 md:pt-16 pb-8 border-t border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex w-full flex-col justify-between gap-6 lg:flex-row lg:items-start text-left">
-          {/* Left info column */}
-          <div className="flex w-full lg:max-w-sm flex-col justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <a href={logo.url} className="flex items-center gap-2">
+        
+        {/* Top Callout Banner inside Footer */}
+        <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-red-950/60 via-slate-900 to-blue-950/60 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[var(--color-primary)] text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-900/40">
+              <GraduationCap className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="text-lg sm:text-xl font-black text-white">Have Questions About Admissions or Batches?</h4>
+              <p className="text-xs sm:text-sm text-slate-400 mt-0.5 font-normal">
+                Speak directly with our academic counselors or request a quick callback.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
+            <a
+              href="tel:+918686456117"
+              className="w-full md:w-auto px-6 py-3 bg-[var(--color-primary)] hover:bg-red-700 text-white font-extrabold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call +91 86864 56117</span>
+            </a>
+            <a
+              href="/contact"
+              className="w-full md:w-auto px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-extrabold text-xs sm:text-sm rounded-xl transition-all border border-slate-700 flex items-center justify-center gap-2"
+            >
+              <span>Contact Us</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-slate-800/80">
+          
+          {/* Column 1: Brand, Description, Contact Info Badges */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="flex items-center gap-3">
+              <a href={logo.url} className="flex items-center gap-3 group">
                 <img
                   src={logo.src}
                   alt={logo.alt}
                   title={logo.title}
-                  className="h-8 w-auto object-contain"
+                  className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
                 />
-                <span className="text-xl font-black tracking-tight text-white">{logo.title}</span>
+                <div>
+                  <span className="text-2xl font-black tracking-tight text-white block leading-tight">{logo.title}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-primary)]">Learn Without Limits</span>
+                </div>
               </a>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-md font-normal">
               {description}
             </p>
-            <ul className="flex items-center space-x-4 text-slate-400">
-              {socialLinks.map((social, idx) => (
-                <li key={idx} className="hover:text-red-400 transition-colors">
-                  <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-                    {social.icon}
-                  </a>
-                </li>
-              ))}
-            </ul>
+
+            {/* Direct Contact Details Badges */}
+            <div className="space-y-2.5 pt-1 text-xs text-slate-300">
+              <div className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-lg bg-slate-800/80 text-[var(--color-primary)] flex items-center justify-center shrink-0 border border-slate-700/60">
+                  <Phone className="w-3.5 h-3.5" />
+                </div>
+                <span className="font-semibold">+91 86864 56117</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-lg bg-slate-800/80 text-blue-400 flex items-center justify-center shrink-0 border border-slate-700/60">
+                  <Mail className="w-3.5 h-3.5" />
+                </div>
+                <span className="font-semibold">yasheduacademy@gmail.com</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-lg bg-slate-800/80 text-emerald-400 flex items-center justify-center shrink-0 border border-slate-700/60">
+                  <Clock className="w-3.5 h-3.5" />
+                </div>
+                <span className="font-semibold">Monday – Saturday: 8:00 AM – 8:00 PM</span>
+              </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="pt-2">
+              <span className="block text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-3">Connect With Us</span>
+              <ul className="flex items-center gap-3">
+                {socialLinks.map((social, idx) => (
+                  <li key={idx}>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-[var(--color-primary)] text-slate-300 hover:text-white flex items-center justify-center transition-all border border-slate-700/60 hover:scale-110 shadow-sm"
+                    >
+                      {social.icon}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Links grid */}
-          <div className="grid w-full gap-6 grid-cols-2 md:grid-cols-3 lg:w-auto lg:gap-12">
+          {/* Column 2-4: Links Grid */}
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8">
             {sections.map((section, sectionIdx) => (
-              <div key={sectionIdx}>
-                <h3 className="mb-2 text-xs font-extrabold uppercase tracking-wider text-slate-100">{section.title}</h3>
-                <ul className="space-y-1.5 text-xs text-slate-400">
+              <div key={sectionIdx} className="space-y-4">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-white border-b border-slate-800 pb-2">
+                  {section.title}
+                </h3>
+                <ul className="space-y-2.5 text-xs text-slate-400 font-medium">
                   {section.links.map((link, linkIdx) => (
-                    <li key={linkIdx} className="hover:text-white transition-colors">
-                      <a href={link.href}>{link.name}</a>
+                    <li key={linkIdx}>
+                      <a href={link.href} className="hover:text-white hover:translate-x-0.5 inline-block transition-all">
+                        {link.name}
+                      </a>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
+
         </div>
 
         {/* Bottom copyright & legal */}
-        <div className="mt-6 flex flex-col justify-between gap-3 border-t border-slate-800/80 pt-4 text-xs text-slate-400 md:flex-row md:items-center">
-          <p>{copyright}</p>
-          <ul className="flex flex-wrap gap-4 text-xs">
+        <div className="mt-8 flex flex-col justify-between gap-4 text-xs text-slate-400 md:flex-row md:items-center">
+          <p className="font-normal">{copyright}</p>
+          <ul className="flex flex-wrap gap-4 text-xs font-medium">
             {legalLinks.map((link, idx) => (
               <li key={idx} className="hover:text-white transition-colors">
                 <a href={link.href}>{link.name}</a>
@@ -173,17 +266,9 @@ export const Footer = (props: Footer7Props) => {
         url: "/",
         src: logoImg,
         alt: "YashEdu Logo",
-        title: "YashEdu",
+        title: "YashEdu Academy",
         ...props.logo,
       }}
-      description={
-        props.description ||
-        "Learn without limits. Interactive live classes, recorded courses, AI learning, and comprehensive progress tracking."
-      }
-      copyright={
-        props.copyright ||
-        `© ${new Date().getFullYear()} YashEdu Platform. All rights reserved.`
-      }
       {...props}
     />
   );
