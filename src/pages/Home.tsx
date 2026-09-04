@@ -183,7 +183,7 @@ export const Home = () => {
             >
               <div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
-                  About <span className="text-[var(--color-primary)]">Yash Educational</span> Institute
+                  About <span className="text-[var(--color-primary)]">Yash</span> Educational Institute
                 </h2>
                 <div className="w-20 h-1 bg-[var(--color-primary)] rounded-full mt-3"></div>
               </div>

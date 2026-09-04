@@ -136,6 +136,16 @@ export const AboutUs = () => {
   }, []);
 
   const renderHeroTitle = (titleStr: string) => {
+    if (titleStr.includes('Yash')) {
+      const parts = titleStr.split('Yash');
+      return (
+        <>
+          {parts[0]}
+          <span className="text-red-600">Yash</span>
+          {parts[1]}
+        </>
+      );
+    }
     const parts = titleStr.trim().split(' ');
     if (parts.length > 2) {
       const firstWord = parts[0];
